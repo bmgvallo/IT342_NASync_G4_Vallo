@@ -44,7 +44,6 @@ public class AdminService {
                     .orElseThrow(() -> new RuntimeException("Branch not found"));
         }
 
-        // Default password is the school ID — user must change on first login
         String hashedPassword = passwordEncoder.encode(request.getSchoolId());
 
         User user = new User();

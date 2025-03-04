@@ -2,6 +2,9 @@ package com.citu.nasync_backend.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "branches", uniqueConstraints = {
@@ -14,6 +17,18 @@ public class Branch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "branch_id")
     private Long branchId;
+
+    @OneToMany(mappedBy = "branch")
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     @ManyToOne
     @JoinColumn(name = "dept_id", nullable = false)

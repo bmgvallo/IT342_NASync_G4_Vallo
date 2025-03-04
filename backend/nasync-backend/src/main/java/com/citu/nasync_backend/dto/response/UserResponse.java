@@ -20,7 +20,6 @@ public class UserResponse {
     private LocalTime expectedTimeOut;
     private boolean isActive;
 
-    // static factory method — converts entity to DTO
     public static UserResponse from(User user) {
         UserResponse dto = new UserResponse();
         dto.userId = user.getUserId();
