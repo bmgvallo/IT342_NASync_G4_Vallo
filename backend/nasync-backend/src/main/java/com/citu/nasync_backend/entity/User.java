@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalTime;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -18,10 +19,12 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "dept_id", nullable = true)
+    @JsonIgnore
     private Department department;
 
     @ManyToOne
     @JoinColumn(name = "branch_id", nullable = true)
+    @JsonIgnore
     private Branch branch;
 
     @Column(name = "school_id", nullable = false, unique = true)
