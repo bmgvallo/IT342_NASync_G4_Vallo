@@ -4,8 +4,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import com.citu.nasync_backend.dto.request.LoginRequest;
-import com.citu.nasync_backend.dto.request.RegisterUserRequest;
 import com.citu.nasync_backend.dto.response.AuthResponse;
 import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.entity.RefreshToken;
@@ -50,7 +48,6 @@ public class AuthService {
     @Value("${google.client-id:placeholder}")
     private String googleClientId;
 
-    // School ID Password Login
     public AuthResponse login(String schoolId, String password) {
         try {
             authenticationManager.authenticate(
@@ -72,95 +69,6 @@ public class AuthService {
         return buildAuthResponse(user);
     }
 
-    // google oauth login
-    public AuthResponse googleLogin(String googleIdToken) {
-        try {
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-                    new NetHttpTransport(), GsonFactory.getDefaultInstance())
-                    .setAudience(Collections.singletonList(googleClientId))
-                    .build();
-
-            GoogleIdToken idToken = verifier.verify(googleIdToken);
-            if (idToken == null) {
-                throw new RuntimeException("Invalid Google token");
-            }
-
-            GoogleIdToken.Payload payload = idToken.getPayload();
-            String email = payload.getEmail();
-            String subject = payload.getSubject();
-
-            // find user by personal_gmail
-            User user = userRepository.findByPersonalGmail(email)
-                    .orElseThrow(() -> new RuntimeException(
-                            "No NASify account linked to this Google account. " +
-                                    "Contact OAS Admin to register your personal Gmail."));
-
-            if (!user.isActive()) {
-                throw new RuntimeException("Account is deactivated.");
-            }
-
-            // store oauth_subject for future faster matching
-            if (user.getOauthSubject() == null) {
-                user.setOauthProvider("google");
-                user.setOauthSubject(subject);
-                userRepository.save(user);
-            }
-
-            return buildAuthResponse(user);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Google login failed: " + e.getMessage());
-        }
-    }
-
-    // register User
-    /*
-    public User register(RegisterUserRequest request) {
-        // Check if school ID already exists
-        if (userRepository.findBySchoolId(request.getSchoolId()).isPresent()) {
-            throw new RuntimeException("School ID already exists");
-        }
-
-        // Check if email already exists
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
-        }
-
-        // Create new user
-        User user = new User();
-        user.setSchoolId(request.getSchoolId());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPersonalGmail(request.getPersonalGmail());
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
-        user.setActive(true);
-        user.setMustChangePassword(true); // Force password change on first login
-
-        // Set department if provided
-        if (request.getDeptId() != null) {
-            // You'll need to inject DepartmentRepository and fetch the department
-            // departmentRepository.findById(request.getDeptId()).ifPresent(user::setDepartment);
-        }
-
-        // Set branch if provided
-        if (request.getBranchId() != null) {
-            // branchRepository.findById(request.getBranchId()).ifPresent(user::setBranch);
-        }
-
-        // Set scholar-specific fields
-        if (request.getRole() == Role.SCHOLAR) {
-            user.setShift(request.getShift());
-            user.setExpectedTimeIn(request.getExpectedTimeIn());
-            user.setExpectedTimeOut(request.getExpectedTimeOut());
-        }
-
-        return userRepository.save(user);
-    }
-    */
-
-    // get Current User (/auth/me)
     public UserResponse getCurrentUser(String schoolId) {
         User user = userRepository.findBySchoolId(schoolId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -190,7 +98,6 @@ public class AuthService {
         String accessToken = jwtUtil.generateToken(
                 user.getSchoolId(), user.getRole().name());
 
-        // generate refresh token and store hashed version
         String rawRefreshToken = UUID.randomUUID().toString();
         refreshTokenRepository.deleteByUser(user);
         refreshTokenRepository.flush();
