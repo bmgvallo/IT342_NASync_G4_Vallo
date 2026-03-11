@@ -112,7 +112,7 @@ public class AuthService {
         user.setLastName(lastName != null ? lastName : "User");
         user.setSchoolId("google_" + googleId.substring(0, 8)); //generate google id as school id but can be changed later by scholar
         user.setPasswordHash(null);
-        user.setRole(Role.SCHOLAR);
+        user.setRole(Role.SCHOLAR); // temporary as admin will have to activate the account and assign the correct role
         user.setActive(true);
         user.setFirstTimeLogin(true);
         user.setOauthProvider("google");
@@ -120,7 +120,7 @@ public class AuthService {
         
         userRepository.save(user);
     } else {
-        // Existing user
+        // user exists, checks role and status
         if (user.getRole() == Role.ADMIN) {
             throw new IllegalArgumentException("Admin accounts cannot use Google login");
         }
@@ -129,7 +129,7 @@ public class AuthService {
             throw new IllegalArgumentException("Account is deactivated");
         }
         
-        // Update OAuth info if not already set
+        // Update oauth info if not set
         if (user.getOauthSubject() == null) {
             user.setOauthProvider("google");
             user.setOauthSubject(googleId);

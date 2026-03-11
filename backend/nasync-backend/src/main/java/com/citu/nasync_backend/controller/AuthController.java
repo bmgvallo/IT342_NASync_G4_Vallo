@@ -23,7 +23,7 @@ public class AuthController {
     private TokenBlacklistService tokenBlacklistService;
     
     @Autowired
-    private JwtUtil jwtUtil;  // Add this
+    private JwtUtil jwtUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
