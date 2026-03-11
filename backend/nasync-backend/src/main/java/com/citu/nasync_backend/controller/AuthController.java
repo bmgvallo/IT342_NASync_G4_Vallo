@@ -2,10 +2,12 @@ package com.citu.nasync_backend.controller;
 
 import com.citu.nasync_backend.dto.request.LoginRequest;
 import com.citu.nasync_backend.dto.response.AuthResponse;
+import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.service.AuthService;
+import com.citu.nasync_backend.security.JwtUtil;
+import com.citu.nasync_backend.security.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import com.citu.nasync_backend.security.TokenBlacklistService;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -19,6 +21,9 @@ public class AuthController {
 
     @Autowired
     private TokenBlacklistService tokenBlacklistService;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
@@ -29,15 +34,20 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    // @PostMapping("/register")
-    // public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
-    //     try {
-    //         User savedUser = authService.register(registerRequest);
-    //         return ResponseEntity.ok(savedUser);
-    //     } catch (RuntimeException e) {
-    //         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-    //     }
-    // }
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String schoolId = jwtUtil.extractSchoolId(token);
+                UserResponse user = authService.getCurrentUser(schoolId);
+                return ResponseEntity.ok(user);
+            }
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid token"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
