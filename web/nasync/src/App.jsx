@@ -10,6 +10,7 @@ import DeptHeadManagement from './pages/admin/DeptHeadManagement';
 import UsersPage from './pages/admin/UsersPage';
 import ScholarDashboard from './pages/scholar/ScholarDashboard';
 import './styles/global.css';
+import AuthCallback from './pages/AuthCallback';
 
 const Unauthorized = () => (
   <div className="unauthorized-container">
@@ -82,6 +83,9 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      
       <Route
         path="/admin/dept-heads"
         element={

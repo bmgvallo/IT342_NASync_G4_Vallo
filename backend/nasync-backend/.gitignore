@@ -4,11 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Environment variables
+# Environment files
 .env
-env
-
-application.properties
+.env.local
+.env.*.local
 
 ### STS ###
 .apt_generated

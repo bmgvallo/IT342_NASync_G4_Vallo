@@ -1,9 +1,5 @@
 package com.citu.nasync_backend.service;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
 import com.citu.nasync_backend.dto.response.AuthResponse;
 import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.entity.RefreshToken;
@@ -11,6 +7,8 @@ import com.citu.nasync_backend.entity.User;
 import com.citu.nasync_backend.repository.RefreshTokenRepository;
 import com.citu.nasync_backend.repository.UserRepository;
 import com.citu.nasync_backend.security.JwtUtil;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import com.citu.nasync_backend.enums.Role;
 
 import jakarta.transaction.Transactional;
 
@@ -24,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -91,6 +88,57 @@ public class AuthService {
         return userRepository.findByEmail(email).isPresent() ||
                 userRepository.findByPersonalGmail(email).isPresent();
     }
+
+    public AuthResponse authenticateWithGoogleOAuth2(OAuth2User oAuth2User) {
+    String email = oAuth2User.getAttribute("email");
+    String googleId = oAuth2User.getAttribute("sub");
+    String firstName = oAuth2User.getAttribute("given_name");
+    String lastName = oAuth2User.getAttribute("family_name");
+    
+    if (email == null) {
+        throw new IllegalArgumentException("Email not provided by Google");
+    }
+    
+    // Check if user exists by personalGmail or email
+    User user = userRepository.findByPersonalGmail(email)
+            .orElseGet(() -> userRepository.findByEmail(email).orElse(null));
+    
+    if (user == null) {
+        // create new user account automatically
+        user = new User();
+        user.setEmail(email);
+        user.setPersonalGmail(email);
+        user.setFirstName(firstName != null ? firstName : "Google");
+        user.setLastName(lastName != null ? lastName : "User");
+        user.setSchoolId("google_" + googleId.substring(0, 8)); //generate google id as school id but can be changed later by scholar
+        user.setPasswordHash(null);
+        user.setRole(Role.SCHOLAR);
+        user.setActive(true);
+        user.setFirstTimeLogin(true);
+        user.setOauthProvider("google");
+        user.setOauthSubject(googleId);
+        
+        userRepository.save(user);
+    } else {
+        // Existing user
+        if (user.getRole() == Role.ADMIN) {
+            throw new IllegalArgumentException("Admin accounts cannot use Google login");
+        }
+        
+        if (!user.isActive()) {
+            throw new IllegalArgumentException("Account is deactivated");
+        }
+        
+        // Update OAuth info if not already set
+        if (user.getOauthSubject() == null) {
+            user.setOauthProvider("google");
+            user.setOauthSubject(googleId);
+            userRepository.save(user);
+        }
+    }
+    
+    return buildAuthResponse(user);
+}
 
 
     @Transactional
