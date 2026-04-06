@@ -1,9 +1,13 @@
 package com.citu.nasync_backend.service;
 
+import com.citu.nasync_backend.chain.BranchResolutionHandler;
+import com.citu.nasync_backend.chain.DepartmentResolutionHandler;
+import com.citu.nasync_backend.chain.EmailDuplicateHandler;
+import com.citu.nasync_backend.chain.RegistrationContext;
+import com.citu.nasync_backend.chain.SchoolIdDuplicateHandler;
+import com.citu.nasync_backend.chain.UserRegistrationHandler;
 import com.citu.nasync_backend.dto.request.RegisterUserRequest;
 import com.citu.nasync_backend.dto.response.UserResponse;
-import com.citu.nasync_backend.entity.Branch;
-import com.citu.nasync_backend.entity.Department;
 import com.citu.nasync_backend.entity.User;
 import com.citu.nasync_backend.enums.Role;
 import com.citu.nasync_backend.repository.BranchRepository;
@@ -12,7 +16,6 @@ import com.citu.nasync_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -23,53 +26,50 @@ public class AdminService {
     @Autowired private BranchRepository branchRepository;
     @Autowired private PasswordEncoder passwordEncoder;
 
+
     public UserResponse registerUser(RegisterUserRequest request) {
 
-        if (userRepository.existsBySchoolId(request.getSchoolId())) {
-            throw new RuntimeException("School ID already exists");
-        }
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
+        // ── Chain of Responsibility Pattern ─────────────────────────────────
+        UserRegistrationHandler chain = new SchoolIdDuplicateHandler(userRepository);
+        chain.setNext(new EmailDuplicateHandler(userRepository))
+             .setNext(new DepartmentResolutionHandler(departmentRepository))
+             .setNext(new BranchResolutionHandler(branchRepository));
 
-        Department department = null;
-        if (request.getDeptId() != null) {
-            department = departmentRepository.findById(request.getDeptId())
-                    .orElseThrow(() -> new RuntimeException("Department not found"));
-        }
-
-        Branch branch = null;
-        if (request.getBranchId() != null) {
-            branch = branchRepository.findById(request.getBranchId())
-                    .orElseThrow(() -> new RuntimeException("Branch not found"));
-        }
+        RegistrationContext context = new RegistrationContext();
+        chain.handle(request, context);
+        // ── End Chain ────────────────────────────────────────────────────────
 
         String hashedPassword = passwordEncoder.encode(request.getSchoolId());
 
-        User user = new User();
-        user.setSchoolId(request.getSchoolId());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPersonalGmail(request.getPersonalGmail());
-        user.setPasswordHash(hashedPassword);
-        user.setRole(request.getRole());
-        user.setDepartment(department);
-        user.setBranch(branch);
-        user.setShift(request.getShift());
-        user.setExpectedTimeIn(request.getExpectedTimeIn());
-        user.setExpectedTimeOut(request.getExpectedTimeOut());
-        user.setActive(true);
-        user.setFirstTimeLogin(true);
+        // ── Builder Pattern ──────────────────────────────────────────────────
+        User user = new User.Builder()
+                .schoolId(request.getSchoolId())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .personalGmail(request.getPersonalGmail())
+                .passwordHash(hashedPassword)
+                .role(request.getRole())
+                .department(context.getDepartment())
+                .branch(context.getBranch())
+                .shift(request.getShift())
+                .expectedTimeIn(request.getExpectedTimeIn())
+                .expectedTimeOut(request.getExpectedTimeOut())
+                .active(true)
+                .firstTimeLogin(true)
+                .build();
+        // ── End Builder ──────────────────────────────────────────────────────
 
         userRepository.save(user);
+
+        // ✅ CHANGED: Use static from() method instead of factory
         return UserResponse.from(user);
     }
 
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(UserResponse::from)
+                .map(UserResponse::from)  // ✅ CHANGED: Static method reference
                 .toList();
     }
 
@@ -77,7 +77,7 @@ public class AdminService {
         return userRepository.findAll()
                 .stream()
                 .filter(u -> u.getRole() == role)
-                .map(UserResponse::from)
+                .map(UserResponse::from)  // ✅ CHANGED: Static method reference
                 .toList();
     }
 
