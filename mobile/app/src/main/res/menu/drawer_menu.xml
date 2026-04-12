@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_scholar">
+        <item android:id="@+id/nav_dashboard" android:title="Dashboard" android:icon="@drawable/ic_dashboard" />
+        <item android:id="@+id/nav_my_duties" android:title="My Duties" android:icon="@drawable/ic_duty" />
+        <item android:id="@+id/nav_makeup_hours" android:title="Makeup Hours" android:icon="@drawable/ic_makeup" />
+    </group>
+    <group android:id="@+id/group_admin">
+        <item android:id="@+id/nav_admin_dashboard" android:title="Dashboard" android:icon="@drawable/ic_dashboard" />
+        <item android:id="@+id/nav_register_user" android:title="Register User" android:icon="@drawable/ic_register" />
+        <item android:id="@+id/nav_manage_depts" android:title="Manage Departments" android:icon="@drawable/ic_department" />
+        <item android:id="@+id/nav_semesters" android:title="Semesters &amp; Holidays" android:icon="@drawable/ic_calendar" />
+    </group>
+    <item android:id="@+id/nav_profile" android:title="Profile" android:icon="@drawable/ic_profile" />
+    <item android:id="@+id/nav_sign_out" android:title="Sign Out" android:icon="@drawable/ic_logout" />
+</menu>

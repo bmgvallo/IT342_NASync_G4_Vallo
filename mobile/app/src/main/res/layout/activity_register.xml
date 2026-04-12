@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/off_white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/maroon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_maroon"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register Scholar"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:fontFamily="serif"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Admin only · Add a new NAS scholar"
+            android:textColor="#B3FFFFFF"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="SCHOOL ID" />
+            <EditText
+                android:id="@+id/etSchoolId"
+                style="@style/FormInput"
+                android:hint="e.g. 21-0001" />
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="FULL NAME" />
+            <EditText
+                android:id="@+id/etFullName"
+                style="@style/FormInput"
+                android:hint="Juan Dela Cruz" />
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="CIT EMAIL" />
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/FormInput"
+                android:inputType="textEmailAddress"
+                android:hint="name@cit.edu" />
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="DEPARTMENT" />
+            <Spinner
+                android:id="@+id/spinnerDept"
+                style="@style/FormSpinner"
+                android:layout_marginBottom="14dp" />
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="BRANCH (OPTIONAL)" />
+            <Spinner
+                android:id="@+id/spinnerBranch"
+                style="@style/FormSpinner"
+                android:layout_marginBottom="14dp" />
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="SHIFT" />
+            <Spinner
+                android:id="@+id/spinnerShift"
+                style="@style/FormSpinner"
+                android:layout_marginBottom="14dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_info_banner"
+                android:padding="12dp"
+                android:text="Default password will be the School ID.\nUser will be prompted to change it on first login."
+                android:textColor="@color/maroon_soft"
+                android:textSize="12sp" />
+
+            <android.widget.Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_button_primary"
+                android:text="Register Scholar"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:padding="14dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <android.widget.Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_button_outline"
+                android:text="Cancel"
+                android:textColor="@color/maroon"
+                android:textSize="14sp"
+                android:padding="12dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
