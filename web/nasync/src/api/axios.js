@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/v1`
+  : 'http://localhost:8080/api/v1';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -30,24 +32,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export const adminApi = {
-  getUsers: () => axiosInstance.get('/admin/users'),
-  getScholars: () => axiosInstance.get('/admin/users/scholars'),
-  getDepartmentHeads: () => axiosInstance.get('/admin/users/department-heads'),
-  registerUser: (data) => axiosInstance.post('/admin/users/register', data),
-  toggleActive: (userId) => axiosInstance.put(`/admin/users/${userId}/toggle-active`),
-  
-  getDepartments: () => axiosInstance.get('/admin/departments'),
-  createDepartment: (name) => axiosInstance.post('/admin/departments', { name }),
-  
-  getBranches: () => axiosInstance.get('/admin/branches'),
-  createBranch: (name, deptId) => axiosInstance.post('/admin/branches', { name, deptId }),
-};
-
-export const authApi = {
-  login: (schoolId, password) => axiosInstance.post('/auth/login', { schoolId, password }),
-  logout: () => axiosInstance.post('/auth/logout'),
-};
 
 export default axiosInstance;

@@ -81,19 +81,135 @@ public class User {
 
     public User() {}
 
-    public User(Department department, Branch branch, String schoolId,
-                String firstName, String lastName, String email,
-                String passwordHash, Role role) {
-        this.department = department;
-        this.branch = branch;
-        this.schoolId = schoolId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.isActive = true;
-        this.firstTimeLogin = true;
+    private User(Builder builder) {
+        this.schoolId = builder.schoolId;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.email = builder.email;
+        this.personalGmail = builder.personalGmail;
+        this.passwordHash = builder.passwordHash;
+        this.role = builder.role;
+        this.department = builder.department;
+        this.branch = builder.branch;
+        this.shift = builder.shift;
+        this.expectedTimeIn = builder.expectedTimeIn;
+        this.expectedTimeOut = builder.expectedTimeOut;
+        this.isActive = builder.isActive;
+        this.firstTimeLogin = builder.firstTimeLogin;
+        this.oauthProvider = builder.oauthProvider;
+        this.oauthSubject = builder.oauthSubject;
+    }
+
+    public static class Builder {
+
+        // required fields
+        private String schoolId;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private Role   role;
+
+        // optional fields
+        private String personalGmail;
+        private String passwordHash;
+        private Department department;
+        private Branch branch;
+        private Shift shift;
+        private LocalTime expectedTimeIn;
+        private LocalTime expectedTimeOut;
+        private boolean isActive = true;
+        private Boolean firstTimeLogin = true;
+        private String oauthProvider;
+        private String oauthSubject;
+
+        public Builder schoolId(String schoolId) {
+            this.schoolId = schoolId;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder personalGmail(String personalGmail) {
+            this.personalGmail = personalGmail;
+            return this;
+        }
+
+        public Builder passwordHash(String passwordHash) {
+            this.passwordHash = passwordHash;
+            return this;
+        }
+
+        public Builder role(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public Builder department(Department department) {
+            this.department = department;
+            return this;
+        }
+
+        public Builder branch(Branch branch) {
+            this.branch = branch;
+            return this;
+        }
+
+        public Builder shift(Shift shift) {
+            this.shift = shift;
+            return this;
+        }
+
+        public Builder expectedTimeIn(LocalTime expectedTimeIn) {
+            this.expectedTimeIn = expectedTimeIn;
+            return this;
+        }
+
+        public Builder expectedTimeOut(LocalTime expectedTimeOut) {
+            this.expectedTimeOut = expectedTimeOut;
+            return this;
+        }
+
+        public Builder active(boolean isActive) {
+            this.isActive = isActive;
+            return this;
+        }
+
+        public Builder firstTimeLogin(Boolean firstTimeLogin) {
+            this.firstTimeLogin = firstTimeLogin;
+            return this;
+        }
+
+        public Builder oauthProvider(String oauthProvider) {
+            this.oauthProvider = oauthProvider;
+            return this;
+        }
+
+        public Builder oauthSubject(String oauthSubject) {
+            this.oauthSubject = oauthSubject;
+            return this;
+        }
+
+        public User build() {
+            if (schoolId  == null || schoolId.isBlank())  throw new IllegalStateException("schoolId is required");
+            if (firstName == null || firstName.isBlank()) throw new IllegalStateException("firstName is required");
+            if (lastName  == null || lastName.isBlank())  throw new IllegalStateException("lastName is required");
+            if (email     == null || email.isBlank())     throw new IllegalStateException("email is required");
+            if (role      == null) throw new IllegalStateException("role is required");
+            return new User(this);
+        }
     }
 
     public Long getUserId() { return userId; }
