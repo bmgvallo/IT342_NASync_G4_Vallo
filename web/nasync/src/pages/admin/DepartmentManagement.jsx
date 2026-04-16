@@ -108,7 +108,6 @@ export default function DepartmentManagement() {
               </div>
             ) : departments.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-icon">🏢</div>
                 <p>No departments yet</p>
               </div>
             ) : (
@@ -153,7 +152,6 @@ export default function DepartmentManagement() {
           </div>
         </div>
 
-        {/* Modal */}
         {showModal && (
           <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
             <div className="modal">

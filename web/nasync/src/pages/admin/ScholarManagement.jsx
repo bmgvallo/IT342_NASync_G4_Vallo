@@ -106,7 +106,7 @@ export default function ScholarManagement() {
         lastName: form.lastName,
         email: form.email,
         personalGmail: form.personalGmail || undefined,
-        password: form.schoolId, // Default password is school ID
+        password: form.schoolId,
         role: 'SCHOLAR',
         deptId: Number(form.deptId),
         branchId: form.branchId ? Number(form.branchId) : undefined,
@@ -174,7 +174,6 @@ export default function ScholarManagement() {
                 </div>
               ) : filteredScholars.length === 0 ? (
                 <div className="empty-state">
-                  <div className="empty-icon">👤</div>
                   <p>No scholars found</p>
                 </div>
               ) : (
@@ -226,7 +225,6 @@ export default function ScholarManagement() {
           </div>
         </div>
 
-        {/* Register Modal */}
         {showModal && (
           <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
             <div className="modal modal-lg">

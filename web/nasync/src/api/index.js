@@ -74,4 +74,38 @@ export const adminApi = {
   },
 };
 
+export const semesterApi = {
+  getAll: () => axios.get('/admin/semesters'),
+  create: (data) => axios.post('/admin/semesters', data),
+  activate: (id) => axios.put(`/admin/semesters/${id}/activate`),
+  getActive: () => axios.get('/admin/semesters/active'),
+  deactivate: (id) => axios.put(`/admin/semesters/${id}/deactivate`),
+  getActive: () => axios.get('/admin/semesters/active'),
+};
+
+export const dutyDayApi = {
+  getBySemester: (semesterId) =>
+    axios.get('/admin/duty-days', { params: { semesterId } }),
+  create: (data) => axios.post('/admin/duty-days', data),
+  delete: (id) => axios.delete(`/admin/duty-days/${id}`),
+};
+
+export const scholarDutyApi = {
+  clockIn: (dutyType = 'REGULAR') =>
+    axios.post('/scholar/duties/clock-in', { dutyType }),
+  clockOut: () => axios.put('/scholar/duties/clock-out'),
+  getMyDuties: () => axios.get('/scholar/duties'),
+  getSummary: () => axios.get('/scholar/duties/summary'),
+};
+
+export const deptHeadApi = {
+  getPendingDuties: () => axios.get('/depthead/duties/pending'),
+  getAllDuties: () => axios.get('/depthead/duties'),
+  getScholars: () => axios.get('/depthead/duties/scholars'),
+  approveDuty: (id, remarks) =>
+    axios.put(`/depthead/duties/${id}/approve`, { remarks }),
+  rejectDuty: (id, remarks) =>
+    axios.put(`/depthead/duties/${id}/reject`, { remarks }),
+};
+
 export default axios;

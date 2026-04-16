@@ -4,6 +4,7 @@ import com.citu.nasync_backend.dto.request.LoginRequest;
 import com.citu.nasync_backend.dto.response.AuthResponse;
 import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.service.AuthService;
+import com.citu.nasync_backend.security.JwtUtil;
 import com.citu.nasync_backend.security.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class AuthController {
 
     @Autowired
     private TokenBlacklistService tokenBlacklistService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {

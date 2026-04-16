@@ -10,7 +10,7 @@ const DEFAULT_FORM = {
   email: '',
   personalGmail: '',
   deptId: '',
-  branchId: '', // Add branch field
+  branchId: '',
   role: 'DEPARTMENT_HEAD'
 };
 
@@ -106,7 +106,7 @@ export default function DeptHeadManagement() {
         password: form.schoolId,
         role: 'DEPARTMENT_HEAD',
         deptId: Number(form.deptId),
-        branchId: Number(form.branchId), // Include branch ID
+        branchId: Number(form.branchId),
       });
 
       setSuccess(`Department Head ${form.firstName} ${form.lastName} registered successfully.`);
@@ -168,7 +168,6 @@ export default function DeptHeadManagement() {
                 </div>
               ) : filteredDeptHeads.length === 0 ? (
                 <div className="empty-state">
-                  <div className="empty-icon">🏛️</div>
                   <p>No department heads found</p>
                 </div>
               ) : (
@@ -214,7 +213,6 @@ export default function DeptHeadManagement() {
           </div>
         </div>
 
-        {/* Register Modal */}
         {showModal && (
           <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
             <div className="modal modal-lg">

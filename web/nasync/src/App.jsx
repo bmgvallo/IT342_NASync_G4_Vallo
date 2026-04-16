@@ -11,6 +11,13 @@ import UsersPage from './pages/admin/UsersPage';
 import ScholarDashboard from './pages/scholar/ScholarDashboard';
 import './styles/global.css';
 import AuthCallback from './pages/AuthCallback';
+import SemesterManagement from './pages/admin/SemesterManagement';
+import DutyDayManagement from './pages/admin/DutyDayManagement';
+import ScholarMyDuties from './pages/scholar/ScholarMyDuties';
+import DeptHeadDashboard from './pages/depthead/DeptHeadDashboard';
+import PendingDuties from './pages/depthead/PendingDuties';
+import DeptHeadScholars from './pages/depthead/DeptHeadScholars'; 
+
 
 const Unauthorized = () => (
   <div className="unauthorized-container">
@@ -62,120 +69,60 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<ProtectedLogin />} />
-      
       <Route path="/unauthorized" element={<Unauthorized />} />
-      
       <Route path="/" element={<RoleBasedRedirect />} />
-
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/scholars"
-        element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
-            <ScholarManagement />
-          </ProtectedRoute>
-        }
-      />
-
       <Route path="/auth/callback" element={<AuthCallback />} />
-      
-      <Route
-        path="/admin/dept-heads"
-        element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
-            <DeptHeadManagement />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/departments"
-        element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
-            <DepartmentManagement />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/branches"
-        element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
-            <BranchManagement />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/users"
-        element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
-            <UsersPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/scholar"
-        element={
-          <ProtectedRoute allowedRoles={['SCHOLAR']}>
-            <ScholarDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/scholar/dashboard"
-        element={
-          <ProtectedRoute allowedRoles={['SCHOLAR']}>
-            <ScholarDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/scholar/history"
-        element={
-          <ProtectedRoute allowedRoles={['SCHOLAR']}>
-            <div>Duty History (Coming Soon)</div>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/scholar/profile"
-        element={
-          <ProtectedRoute allowedRoles={['SCHOLAR']}>
-            <div>My Profile (Coming Soon)</div>
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/depthead"
-        element={
-          <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
-            <div>Department Head Dashboard (Coming Soon)</div>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/depthead/pending"
-        element={
-          <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
-            <div>Pending Duties (Coming Soon)</div>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/depthead/scholars"
-        element={
-          <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
-            <div>My Scholars (Coming Soon)</div>
-          </ProtectedRoute>
-        }
-      />
+ 
+      <Route path="/admin" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>
+      } />
+      <Route path="/admin/scholars" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><ScholarManagement /></ProtectedRoute>
+      } />
+      <Route path="/admin/dept-heads" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><DeptHeadManagement /></ProtectedRoute>
+      } />
+      <Route path="/admin/departments" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><DepartmentManagement /></ProtectedRoute>
+      } />
+      <Route path="/admin/branches" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><BranchManagement /></ProtectedRoute>
+      } />
+      <Route path="/admin/semesters" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><SemesterManagement /></ProtectedRoute>
+      } />
+      <Route path="/admin/duty-days" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><DutyDayManagement /></ProtectedRoute>
+      } />
+      <Route path="/admin/users" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}><UsersPage /></ProtectedRoute>
+      } />
+ 
+      <Route path="/scholar" element={
+        <ProtectedRoute allowedRoles={['SCHOLAR']}><ScholarDashboard /></ProtectedRoute>
+      } />
+      <Route path="/scholar/dashboard" element={
+        <ProtectedRoute allowedRoles={['SCHOLAR']}><ScholarDashboard /></ProtectedRoute>
+      } />
+      <Route path="/scholar/duties" element={
+        <ProtectedRoute allowedRoles={['SCHOLAR']}><ScholarMyDuties /></ProtectedRoute>
+      } />
+ 
+      <Route path="/depthead" element={
+        <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
+          <DeptHeadDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/depthead/pending" element={
+        <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
+          <PendingDuties />
+        </ProtectedRoute>
+      } />
+      <Route path="/depthead/scholars" element={
+        <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
+          <DeptHeadScholars />
+        </ProtectedRoute>
+      } />
 
       <Route path="*" element={<RoleBasedRedirect />} />
     </Routes>

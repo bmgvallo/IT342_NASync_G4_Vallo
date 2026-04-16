@@ -127,7 +127,6 @@ export default function BranchManagement() {
               </div>
             ) : branches.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-icon">🌿</div>
                 <p>No branches yet</p>
               </div>
             ) : (
@@ -180,7 +179,6 @@ export default function BranchManagement() {
           </div>
         </div>
 
-        {/* Modal */}
         {showModal && (
           <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
             <div className="modal">
