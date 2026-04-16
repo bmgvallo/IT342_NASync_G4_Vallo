@@ -47,21 +47,25 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (schoolId, password) => {
-    setError(null);
-    try {
-      const response = await authApi.login(schoolId, password);
-      const { accessToken, user } = response.data;
-      
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('user', JSON.stringify(user));
-      setUser(user);
-      
-      return user;
-    } catch (err) {
-      const message = err.response?.data?.error || 'Login failed';
-      setError(message);
-      throw new Error(message);
-    }
+      setError(null);
+      try {
+          const response = await authApi.login(schoolId, password);
+          const { accessToken, user } = response.data;
+          
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('user', JSON.stringify(user));
+          setUser(user);
+          
+          if (user.mustChangePassword || user.firstTimeLogin) {
+              return { user, mustChangePassword: true };
+          }
+          
+          return { user, mustChangePassword: false };
+      } catch (err) {
+          const message = err.response?.data?.error || 'Login failed';
+          setError(message);
+          throw new Error(message);
+      }
   };
 
   const logout = async () => {

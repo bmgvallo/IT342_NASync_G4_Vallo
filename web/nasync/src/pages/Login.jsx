@@ -32,27 +32,30 @@ export default function Login() {
   const from = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    
-    try {
-      const user = await login(schoolId, password);
+      e.preventDefault();
+      setError(null);
       
-      // set flag for welcome toast
-      sessionStorage.setItem('showLoginToast', 'true');
-      
-      if (user.role === 'ADMIN') {
-        navigate('/admin', { replace: true });
-      } else if (user.role === 'SCHOLAR') {
-        navigate('/scholar', { replace: true });
-      } else if (user.role === 'DEPARTMENT_HEAD') {
-        navigate('/depthead', { replace: true });
-      } else {
-        navigate(from, { replace: true });
+      try {
+          const result = await login(schoolId, password);
+          
+          if (result.mustChangePassword) {
+              navigate('/change-password', { state: { schoolId } });
+              return;
+          }
+          
+          sessionStorage.setItem('showLoginToast', 'true');
+          
+          if (result.user.role === 'ADMIN') {
+              navigate('/admin', { replace: true });
+          } else if (result.user.role === 'SCHOLAR') {
+              navigate('/scholar', { replace: true });
+          } else if (result.user.role === 'DEPARTMENT_HEAD') {
+              navigate('/depthead', { replace: true });
+          } else {
+              navigate(from, { replace: true });
+          }
+      } catch (err) {
       }
-      
-    } catch (err) {
-    }
   };
 
   const handleGoogleLogin = () => {
@@ -66,7 +69,6 @@ export default function Login() {
 
   return (
     <div className="login-root">
-      {/* Left panel — brand */}
       <div className="login-brand">
         <div className="login-brand-inner">
           <div className="login-logo">
@@ -102,7 +104,6 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right panel — form */}
       <div className="login-form-panel">
         <div className="login-form-container">
           <div className="login-form-header">
@@ -110,7 +111,6 @@ export default function Login() {
             <p>Enter your school credentials to continue</p>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="alert alert-error">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">

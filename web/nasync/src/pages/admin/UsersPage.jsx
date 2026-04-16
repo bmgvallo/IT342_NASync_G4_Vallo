@@ -1,6 +1,8 @@
+// src/pages/admin/UsersPage.jsx - Replace with this
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { adminApi } from '../../api';
+import UserDetailModal from '../../components/UserDetailModal';
 import '../../styles/admin.css';
 
 export default function UsersPage() {
@@ -9,6 +11,8 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterRole, setFilterRole] = useState('ALL');
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showMenuFor, setShowMenuFor] = useState(null);
 
   const loadData = async () => {
     setLoading(true);
@@ -17,7 +21,6 @@ export default function UsersPage() {
         adminApi.getAllUsers(),
         adminApi.getDepartments()
       ]);
-      
       setUsers(usersRes.data?.data || usersRes.data || []);
       setDepartments(deptsRes.data?.data || deptsRes.data || []);
     } catch (err) {
@@ -38,9 +41,7 @@ export default function UsersPage() {
       user.firstName?.toLowerCase().includes(q) ||
       user.lastName?.toLowerCase().includes(q) ||
       user.email?.toLowerCase().includes(q);
-    
     const matchRole = filterRole === 'ALL' || user.role === filterRole;
-    
     return matchSearch && matchRole;
   });
 
@@ -56,6 +57,16 @@ export default function UsersPage() {
       loadData();
     } catch (err) {
       alert('Failed to update user status');
+    }
+  };
+
+  const handleReassign = async (userId, deptId, branchId) => {
+    try {
+      await adminApi.reassignUser(userId, deptId, branchId);
+      loadData();
+      setShowMenuFor(null);
+    } catch (err) {
+      alert('Failed to reassign user');
     }
   };
 
@@ -89,16 +100,11 @@ export default function UsersPage() {
                 <option value="DEPARTMENT_HEAD">Dept Heads</option>
                 <option value="ADMIN">Admins</option>
               </select>
-              <span className="text-muted result-count">
-                {filteredUsers.length} result{filteredUsers.length !== 1 ? 's' : ''}
-              </span>
             </div>
 
             <div className="table-responsive">
               {loading ? (
-                <div className="loading-state">
-                  <div className="spinner"></div>
-                </div>
+                <div className="loading-state"><div className="spinner"></div></div>
               ) : filteredUsers.length === 0 ? (
                 <div className="empty-state">
                   <div className="empty-icon">👥</div>
@@ -126,23 +132,39 @@ export default function UsersPage() {
                         <td>{user.lastName}, {user.firstName}</td>
                         <td>{getRoleBadge(user.role)}</td>
                         <td>{user.email}</td>
-                        <td>{user.departmentName || user.deptName || '—'}</td>
+                        <td>{user.departmentName || '—'}</td>
                         <td>{user.branchName || '—'}</td>
                         <td>{user.shift || '—'}</td>
                         <td>
-                          <span className={`badge ${user.active ? 'badge-success' : 'badge-muted'}`}>
-                            {user.active ? 'Active' : 'Inactive'}
-                          </span>
+                          <button
+                            className={`status-toggle ${user.active ? 'active' : 'inactive'}`}
+                            onClick={() => toggleActive(user.userId)}
+                            title={user.active ? 'Deactivate' : 'Activate'}
+                          >
+                            {user.active ? 'Deactivate' : 'Activate'}
+                          </button>
                         </td>
                         <td>
-                          {user.role !== 'ADMIN' && (
-                            <button
-                              className={`btn btn-sm ${user.active ? 'btn-ghost' : 'btn-success'}`}
-                              onClick={() => toggleActive(user.userId)}
+                          <div className="action-menu">
+                            <button 
+                              className="menu-trigger"
+                              onClick={() => setShowMenuFor(showMenuFor === user.userId ? null : user.userId)}
                             >
-                              {user.active ? 'Deactivate' : 'Activate'}
+                              ⋯
                             </button>
-                          )}
+                            {showMenuFor === user.userId && (
+                              <div className="menu-dropdown">
+                                <button onClick={() => { setSelectedUser(user); setShowMenuFor(null); }}>
+                                  View Details
+                                </button>
+                                {user.role !== 'ADMIN' && (
+                                  <button onClick={() => handleReassign(user.userId, null, null)}>
+                                  Reassign
+                                  </button>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -153,6 +175,15 @@ export default function UsersPage() {
           </div>
         </div>
       </div>
+
+      {/* User Detail Modal */}
+      {selectedUser && (
+        <UserDetailModal 
+          user={selectedUser} 
+          onClose={() => setSelectedUser(null)}
+          onUpdate={loadData}
+        />
+      )}
     </Layout>
   );
 }

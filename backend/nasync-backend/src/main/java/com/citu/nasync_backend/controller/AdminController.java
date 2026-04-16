@@ -54,4 +54,29 @@ public class AdminController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
+    @PutMapping("/users/{userId}/reassign")
+    public ResponseEntity<?> reassignUser(@PathVariable Long userId,
+                                        @RequestBody Map<String, Long> request) {
+        try {
+            Long deptId = request.get("deptId");
+            Long branchId = request.get("branchId");
+            adminService.reassignUser(userId, deptId, branchId);
+            return ResponseEntity.ok(Map.of("message", "User reassigned successfully"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId,
+                                        @RequestBody RegisterUserRequest request) {
+        try {
+            UserResponse updated = adminService.updateUser(userId, request);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }
