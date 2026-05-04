@@ -4,19 +4,19 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './features/auth/Login';
 import AdminDashboard from './features/admin/AdminDashboard';
 import ScholarManagement from './features/admin/ScholarManagement';
-import DepartmentManagement from './pages/admin/DepartmentManagement';
+import DepartmentManagement from './features/department/DepartmentManagement';
 import BranchManagement from './features/branch/BranchManagement';
 import DeptHeadManagement from './features/admin/DeptHeadManagement';
 import UsersPage from './features/admin/UsersPage';
-import ScholarDashboard from './pages/scholar/ScholarDashboard';
+import ScholarDashboard from './features/scholar/ScholarDashboard';
 import './styles/global.css';
 import AuthCallback from './features/auth/AuthCallback';
-import SemesterManagement from './pages/admin/SemesterManagement';
-import DutyDayManagement from './pages/admin/DutyDayManagement';
-import ScholarMyDuties from './pages/scholar/ScholarMyDuties';
-import DeptHeadDashboard from './pages/depthead/DeptHeadDashboard';
-import PendingDuties from './pages/depthead/PendingDuties';
-import DeptHeadScholars from './pages/depthead/DeptHeadScholars'; 
+import SemesterManagement from './features/semester/SemesterManagement';
+import DutyDayManagement from './features/dutyday/DutyDayManagement';
+import ScholarMyDuties from './features/scholar/ScholarMyDuties';
+import DeptHeadDashboard from './features/depthead/DeptHeadDashboard';
+import PendingDuties from './features/depthead/PendingDuties';
+import DeptHeadScholars from './features/depthead/DeptHeadScholars';
 
 
 const Unauthorized = () => (
