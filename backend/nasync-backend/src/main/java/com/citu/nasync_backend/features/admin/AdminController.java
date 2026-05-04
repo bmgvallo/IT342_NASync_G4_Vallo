@@ -1,9 +1,9 @@
-package com.citu.nasync_backend.controller;
+package com.citu.nasync_backend.features.admin;
 
 import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
 import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.enums.Role;
-import com.citu.nasync_backend.service.AdminService;
+import com.citu.nasync_backend.features.admin.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

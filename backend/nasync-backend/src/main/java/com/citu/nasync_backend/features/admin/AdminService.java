@@ -1,4 +1,4 @@
-package com.citu.nasync_backend.service;
+package com.citu.nasync_backend.features.admin;
 
 import com.citu.nasync_backend.features.auth.chain.BranchResolutionHandler;
 import com.citu.nasync_backend.features.auth.chain.DepartmentResolutionHandler;

@@ -1,6 +1,7 @@
-package com.vallo.nasync
+package com.vallo.nasync.features.admin
 
-import BaseDrawerActivity
+import com.vallo.nasync.BaseDrawerActivity
+import com.vallo.nasync.features.auth.RegisterActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView

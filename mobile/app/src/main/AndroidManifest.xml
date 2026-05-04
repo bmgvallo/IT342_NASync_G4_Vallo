@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminDashboardActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.admin.AdminDashboardActivity" android:exported="false" />
         <activity android:name=".ScholarDashboardActivity" android:exported="false" />
         <activity android:name="com.vallo.nasync.features.auth.RegisterActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />

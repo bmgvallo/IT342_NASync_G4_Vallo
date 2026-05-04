@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './features/auth/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './features/auth/Login';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import ScholarManagement from './pages/admin/ScholarManagement';
+import AdminDashboard from './features/admin/AdminDashboard';
+import ScholarManagement from './features/admin/ScholarManagement';
 import DepartmentManagement from './pages/admin/DepartmentManagement';
 import BranchManagement from './pages/admin/BranchManagement';
-import DeptHeadManagement from './pages/admin/DeptHeadManagement';
-import UsersPage from './pages/admin/UsersPage';
+import DeptHeadManagement from './features/admin/DeptHeadManagement';
+import UsersPage from './features/admin/UsersPage';
 import ScholarDashboard from './pages/scholar/ScholarDashboard';
 import './styles/global.css';
 import AuthCallback from './features/auth/AuthCallback';
