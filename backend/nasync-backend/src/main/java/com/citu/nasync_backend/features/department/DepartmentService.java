@@ -1,4 +1,4 @@
-package com.citu.nasync_backend.service;
+package com.citu.nasync_backend.features.department;
 
 import com.citu.nasync_backend.dto.response.DepartmentResponse;
 import com.citu.nasync_backend.entity.Department;
