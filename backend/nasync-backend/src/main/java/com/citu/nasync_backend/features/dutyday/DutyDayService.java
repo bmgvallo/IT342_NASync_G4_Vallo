@@ -1,4 +1,4 @@
-package com.citu.nasync_backend.service;
+package com.citu.nasync_backend.features.dutyday;
  
 import com.citu.nasync_backend.dto.request.CreateDutyDayRequest;
 import com.citu.nasync_backend.dto.response.DutyDayResponse;
