@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.vallo.nasync.features.admin.AdminDashboardActivity
-import com.vallo.nasync.ScholarDashboardActivity
+import com.vallo.nasync.features.scholar.ScholarDashboardActivity
 import com.vallo.nasync.api.RetrofitClient
 import com.vallo.nasync.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch

@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.vallo.nasync.features.admin.AdminDashboardActivity" android:exported="false" />
-        <activity android:name=".ScholarDashboardActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.scholar.ScholarDashboardActivity" android:exported="false" />
         <activity android:name="com.vallo.nasync.features.auth.RegisterActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
     </application>

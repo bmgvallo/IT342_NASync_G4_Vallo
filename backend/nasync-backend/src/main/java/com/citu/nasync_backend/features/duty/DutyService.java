@@ -1,4 +1,4 @@
-package com.citu.nasync_backend.service;
+package com.citu.nasync_backend.features.duty;
  
 import com.citu.nasync_backend.dto.request.ClockInRequest;
 import com.citu.nasync_backend.dto.request.ApprovalRequest;

@@ -1,6 +1,6 @@
-package com.vallo.nasync
+package com.vallo.nasync.features.scholar
 
-import BaseDrawerActivity
+import com.vallo.nasync.BaseDrawerActivity
 import android.os.Bundle
 import android.widget.TextView
 import java.text.SimpleDateFormat
