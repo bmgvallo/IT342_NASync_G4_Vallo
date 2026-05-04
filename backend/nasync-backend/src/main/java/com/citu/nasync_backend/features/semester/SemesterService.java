@@ -1,4 +1,4 @@
-package com.citu.nasync_backend.service;
+package com.citu.nasync_backend.features.semester;
  
 import com.citu.nasync_backend.dto.request.CreateSemesterRequest;
 import com.citu.nasync_backend.dto.response.SemesterResponse;

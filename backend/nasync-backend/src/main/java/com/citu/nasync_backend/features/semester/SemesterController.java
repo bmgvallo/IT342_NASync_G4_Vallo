@@ -1,8 +1,8 @@
-package com.citu.nasync_backend.controller;
- 
+package com.citu.nasync_backend.features.semester;
+
 import com.citu.nasync_backend.dto.request.CreateSemesterRequest;
 import com.citu.nasync_backend.dto.response.SemesterResponse;
-import com.citu.nasync_backend.service.SemesterService;
+import com.citu.nasync_backend.features.semester.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
