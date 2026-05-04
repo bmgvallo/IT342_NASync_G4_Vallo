@@ -5,7 +5,7 @@ import Login from './features/auth/Login';
 import AdminDashboard from './features/admin/AdminDashboard';
 import ScholarManagement from './features/admin/ScholarManagement';
 import DepartmentManagement from './pages/admin/DepartmentManagement';
-import BranchManagement from './pages/admin/BranchManagement';
+import BranchManagement from './features/branch/BranchManagement';
 import DeptHeadManagement from './features/admin/DeptHeadManagement';
 import UsersPage from './features/admin/UsersPage';
 import ScholarDashboard from './pages/scholar/ScholarDashboard';

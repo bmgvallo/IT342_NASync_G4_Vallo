@@ -1,4 +1,4 @@
-package com.citu.nasync_backend.service;
+package com.citu.nasync_backend.features.branch;
 
 import com.citu.nasync_backend.dto.response.BranchResponse;
 import com.citu.nasync_backend.entity.Branch;
