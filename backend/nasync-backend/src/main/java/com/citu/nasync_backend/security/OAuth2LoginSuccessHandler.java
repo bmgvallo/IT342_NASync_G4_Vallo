@@ -1,7 +1,7 @@
 package com.citu.nasync_backend.security;
 
-import com.citu.nasync_backend.dto.response.AuthResponse;
-import com.citu.nasync_backend.service.AuthService;
+import com.citu.nasync_backend.features.auth.dto.AuthResponse;
+import com.citu.nasync_backend.features.auth.AuthService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
 package com.citu.nasync_backend.controller;
 
-import com.citu.nasync_backend.dto.request.RegisterUserRequest;
+import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
 import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.enums.Role;
 import com.citu.nasync_backend.service.AdminService;

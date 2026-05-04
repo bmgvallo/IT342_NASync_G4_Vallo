@@ -1,4 +1,4 @@
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../features/auth/AuthContext';
 import Layout from '../../components/Layout';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/admin.css';

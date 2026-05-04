@@ -1,12 +1,12 @@
 package com.citu.nasync_backend.service;
 
-import com.citu.nasync_backend.chain.BranchResolutionHandler;
-import com.citu.nasync_backend.chain.DepartmentResolutionHandler;
-import com.citu.nasync_backend.chain.EmailDuplicateHandler;
-import com.citu.nasync_backend.chain.RegistrationContext;
-import com.citu.nasync_backend.chain.SchoolIdDuplicateHandler;
-import com.citu.nasync_backend.chain.UserRegistrationHandler;
-import com.citu.nasync_backend.dto.request.RegisterUserRequest;
+import com.citu.nasync_backend.features.auth.chain.BranchResolutionHandler;
+import com.citu.nasync_backend.features.auth.chain.DepartmentResolutionHandler;
+import com.citu.nasync_backend.features.auth.chain.EmailDuplicateHandler;
+import com.citu.nasync_backend.features.auth.chain.RegistrationContext;
+import com.citu.nasync_backend.features.auth.chain.SchoolIdDuplicateHandler;
+import com.citu.nasync_backend.features.auth.chain.UserRegistrationHandler;
+import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
 import com.citu.nasync_backend.dto.response.UserResponse;
 import com.citu.nasync_backend.entity.Branch;
 import com.citu.nasync_backend.entity.Department;

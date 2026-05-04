@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../features/auth/AuthContext';
 import Sidebar from './Sidebar';
 import Toast from './Toast';
 import '../styles/Layout.css';

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../features/auth/AuthContext';
 import '../styles/Sidebar.css';
  
 const ADMIN_NAV = [

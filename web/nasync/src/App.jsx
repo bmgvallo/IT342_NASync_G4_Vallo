@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './features/auth/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import Login from './pages/Login';
+import Login from './features/auth/Login';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ScholarManagement from './pages/admin/ScholarManagement';
 import DepartmentManagement from './pages/admin/DepartmentManagement';
@@ -10,7 +10,7 @@ import DeptHeadManagement from './pages/admin/DeptHeadManagement';
 import UsersPage from './pages/admin/UsersPage';
 import ScholarDashboard from './pages/scholar/ScholarDashboard';
 import './styles/global.css';
-import AuthCallback from './pages/AuthCallback';
+import AuthCallback from './features/auth/AuthCallback';
 import SemesterManagement from './pages/admin/SemesterManagement';
 import DutyDayManagement from './pages/admin/DutyDayManagement';
 import ScholarMyDuties from './pages/scholar/ScholarMyDuties';
