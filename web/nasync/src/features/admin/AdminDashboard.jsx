@@ -1,7 +1,7 @@
 import { useAuth } from '../../features/auth/AuthContext';
-import Layout from '../../components/Layout';
+import Layout from '../../shared/components/Layout';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/admin.css';
+import '../../shared/styles/admin.css'
 
 export default function AdminDashboard() {
   const { user } = useAuth();

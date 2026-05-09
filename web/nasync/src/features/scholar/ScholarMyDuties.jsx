@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { scholarDutyApi } from '../../api';
-import '../../styles/scholar.css';
+import Layout from '../../shared/components/Layout';
+import { scholarDutyApi } from '../../shared/api';
+import '../../shared/styles/scholar.css';
 
 const ATTENDANCE_BADGE = {
   PRESENT: 'badge-success',

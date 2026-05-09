@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { semesterApi } from '../../api';
-import '../../styles/admin.css';
+import Layout from '../../shared/components/Layout';
+import { semesterApi } from '../../shared/api';
+import '../../shared/styles/admin.css';
  
 const DEFAULT_FORM = { label: '', startDate: '', endDate: '' };
  

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { authApi } from '../../api';
+import { authApi } from '../../shared/api';
 import { jwtDecode } from 'jwt-decode';
 
 export const DEFAULT_PASSWORD = 'default123';

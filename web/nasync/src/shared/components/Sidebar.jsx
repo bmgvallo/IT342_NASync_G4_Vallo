@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../features/auth/AuthContext';
-import '../styles/Sidebar.css';
+import { useAuth } from '../../features/auth/AuthContext';
+import "../styles/Sidebar.css";
  
 const ADMIN_NAV = [
   { to: '/admin', label: 'Dashboard' },

@@ -1,9 +1,9 @@
 // src/pages/admin/UsersPage.jsx - Replace with this
 import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { adminApi } from '../../api';
-import UserDetailModal from '../../components/UserDetailModal';
-import '../../styles/admin.css';
+import Layout from '../../shared/components/Layout';
+import { adminApi } from '../../shared/api';
+import UserDetailModal from '../../shared/components/UserDetailModal';
+import '../../shared/styles/admin.css';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);

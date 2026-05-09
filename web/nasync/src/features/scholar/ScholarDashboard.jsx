@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../features/auth/AuthContext';
-import Layout from '../../components/Layout';
-import { scholarDutyApi } from '../../api';
+import Layout from '../../shared/components/Layout';
+import { scholarDutyApi } from '../../shared/api';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/scholar.css';
+import '../../shared/styles/scholar.css';
  
 export default function ScholarDashboard() {
   const { user } = useAuth();

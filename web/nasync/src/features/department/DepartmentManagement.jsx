@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { adminApi } from '../../api';
-import '../../styles/admin.css';
+import Layout from '../../shared/components/Layout';
+import { adminApi } from '../../shared/api';
+import '../../shared/styles/admin.css';
 
 export default function DepartmentManagement() {
   const [departments, setDepartments] = useState([]);

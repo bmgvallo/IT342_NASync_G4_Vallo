@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { deptHeadApi } from '../../api';
-import '../../styles/admin.css';
+import Layout from '../../shared/components/Layout';
+import { deptHeadApi } from '../../shared/api';
+import '../../shared/styles/admin.css';
  
 const STATUS_BADGE = {
   PENDING: 'badge-info',

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { semesterApi, dutyDayApi } from '../../api';
-import '../../styles/admin.css';
+import Layout from '../../shared/components/Layout';
+import { semesterApi, dutyDayApi } from '../../shared/api';
+import '../../shared/styles/admin.css';
  
 const TYPE_COLORS = {
   HOLIDAY: 'badge-danger',
