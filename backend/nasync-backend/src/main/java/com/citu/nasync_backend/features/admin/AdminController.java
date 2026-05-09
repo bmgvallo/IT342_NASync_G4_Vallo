@@ -1,8 +1,8 @@
 package com.citu.nasync_backend.features.admin;
 
 import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
-import com.citu.nasync_backend.dto.response.UserResponse;
-import com.citu.nasync_backend.enums.Role;
+import com.citu.nasync_backend.shared.dto.response.UserResponse;
+import com.citu.nasync_backend.shared.enums.Role;
 import com.citu.nasync_backend.features.admin.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

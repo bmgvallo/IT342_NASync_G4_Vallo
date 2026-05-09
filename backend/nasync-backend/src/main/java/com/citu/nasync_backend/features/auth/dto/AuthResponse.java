@@ -1,6 +1,6 @@
 package com.citu.nasync_backend.features.auth.dto;
 
-import com.citu.nasync_backend.dto.response.UserResponse;
+import com.citu.nasync_backend.shared.dto.response.UserResponse;
 
 public class AuthResponse {
 

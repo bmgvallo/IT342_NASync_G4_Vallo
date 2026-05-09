@@ -1,11 +1,11 @@
 package com.citu.nasync_backend.features.auth.strategy;
 
 import com.citu.nasync_backend.features.auth.dto.AuthResponse;
-import com.citu.nasync_backend.dto.response.UserResponse;
+import com.citu.nasync_backend.shared.dto.response.UserResponse;
 import com.citu.nasync_backend.features.auth.entity.RefreshToken;
-import com.citu.nasync_backend.entity.User;
+import com.citu.nasync_backend.shared.entity.User;
 import com.citu.nasync_backend.features.auth.repository.RefreshTokenRepository;
-import com.citu.nasync_backend.security.JwtUtil;
+import com.citu.nasync_backend.shared.security.JwtUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

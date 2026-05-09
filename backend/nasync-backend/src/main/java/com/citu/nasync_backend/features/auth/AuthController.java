@@ -2,10 +2,10 @@ package com.citu.nasync_backend.features.auth;
 
 import com.citu.nasync_backend.features.auth.dto.LoginRequest;
 import com.citu.nasync_backend.features.auth.dto.AuthResponse;
-import com.citu.nasync_backend.dto.response.UserResponse;
+import com.citu.nasync_backend.shared.dto.response.UserResponse;
 import com.citu.nasync_backend.features.auth.AuthService;
-import com.citu.nasync_backend.security.JwtUtil;
-import com.citu.nasync_backend.security.TokenBlacklistService;
+import com.citu.nasync_backend.shared.security.JwtUtil;
+import com.citu.nasync_backend.shared.security.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

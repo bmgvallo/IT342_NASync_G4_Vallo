@@ -1,7 +1,7 @@
 package com.citu.nasync_backend.features.dutyday;
 
-import com.citu.nasync_backend.dto.request.CreateDutyDayRequest;
-import com.citu.nasync_backend.dto.response.DutyDayResponse;
+import com.citu.nasync_backend.features.dutyday.CreateDutyDayRequest;
+import com.citu.nasync_backend.features.dutyday.DutyDayResponse;
 import com.citu.nasync_backend.features.dutyday.DutyDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

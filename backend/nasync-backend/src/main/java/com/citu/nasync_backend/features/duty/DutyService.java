@@ -1,14 +1,14 @@
 package com.citu.nasync_backend.features.duty;
  
-import com.citu.nasync_backend.dto.request.ClockInRequest;
-import com.citu.nasync_backend.dto.request.ApprovalRequest;
-import com.citu.nasync_backend.dto.response.DutyResponse;
-import com.citu.nasync_backend.entity.*;
-import com.citu.nasync_backend.enums.DayType;
-import com.citu.nasync_backend.enums.DutyStatus;
-import com.citu.nasync_backend.enums.AttendanceStatus;
-import com.citu.nasync_backend.enums.DutyType;
-import com.citu.nasync_backend.repository.*;
+import com.citu.nasync_backend.features.duty.ClockInRequest;
+import com.citu.nasync_backend.features.duty.ApprovalRequest;
+import com.citu.nasync_backend.features.duty.DutyResponse;
+import com.citu.nasync_backend.shared.entity.*;
+import com.citu.nasync_backend.shared.enums.DayType;
+import com.citu.nasync_backend.shared.enums.DutyStatus;
+import com.citu.nasync_backend.shared.enums.AttendanceStatus;
+import com.citu.nasync_backend.shared.enums.DutyType;
+import com.citu.nasync_backend.shared.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
@@ -266,7 +266,7 @@ public class DutyService {
         return DutyResponse.from(dutyRepository.save(duty));
     }
 
-    public List<com.citu.nasync_backend.dto.response.UserResponse>
+    public List<com.citu.nasync_backend.shared.dto.response.UserResponse>
             getScholarsByBranch(String deptHeadSchoolId) {
         User deptHead = userRepository.findBySchoolId(deptHeadSchoolId)
             .orElseThrow(() -> new RuntimeException("User not found"));
@@ -275,15 +275,15 @@ public class DutyService {
             throw new RuntimeException("No branch assigned.");
         return userRepository
             .findByBranchAndRole(branch,
-                com.citu.nasync_backend.enums.Role.SCHOLAR)
+                com.citu.nasync_backend.shared.enums.Role.SCHOLAR)
             .stream()
-            .map(com.citu.nasync_backend.dto.response.UserResponse::from)
+            .map(com.citu.nasync_backend.shared.dto.response.UserResponse::from)
             .toList();
     }
 
     private void checkAndApplyLateToAbsent(User scholar, Semester semester) {
         long lateCount = dutyRepository.countByScholarAndSemesterAndAttendanceStatus(
-            scholar, semester, AttendanceStatus.LATE);
+            scholar, semester, com.citu.nasync_backend.shared.enums.AttendanceStatus.LATE);
         
         // 3 lates = 1 absent
         long absentEquivalent = lateCount / 3;

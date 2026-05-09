@@ -1,8 +1,8 @@
 package com.citu.nasync_backend.features.auth.chain;
 
 import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
-import com.citu.nasync_backend.entity.Branch;
-import com.citu.nasync_backend.repository.BranchRepository;
+import com.citu.nasync_backend.shared.entity.Branch;
+import com.citu.nasync_backend.shared.repository.BranchRepository;
 
 public class BranchResolutionHandler extends UserRegistrationHandler {
 

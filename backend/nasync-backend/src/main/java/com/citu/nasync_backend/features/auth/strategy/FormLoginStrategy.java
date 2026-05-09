@@ -1,8 +1,8 @@
 package com.citu.nasync_backend.features.auth.strategy;
 
 import com.citu.nasync_backend.features.auth.dto.AuthResponse;
-import com.citu.nasync_backend.entity.User;
-import com.citu.nasync_backend.repository.UserRepository;
+import com.citu.nasync_backend.shared.entity.User;
+import com.citu.nasync_backend.shared.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

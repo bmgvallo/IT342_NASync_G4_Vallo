@@ -1,6 +1,6 @@
 package com.citu.nasync_backend.features.department;
 
-import com.citu.nasync_backend.dto.response.DepartmentResponse;
+import com.citu.nasync_backend.features.department.DepartmentResponse;
 import com.citu.nasync_backend.features.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

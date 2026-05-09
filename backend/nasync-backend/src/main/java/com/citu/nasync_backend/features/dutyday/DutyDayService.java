@@ -1,13 +1,13 @@
 package com.citu.nasync_backend.features.dutyday;
  
-import com.citu.nasync_backend.dto.request.CreateDutyDayRequest;
-import com.citu.nasync_backend.dto.response.DutyDayResponse;
-import com.citu.nasync_backend.entity.DutyDay;
-import com.citu.nasync_backend.entity.Semester;
-import com.citu.nasync_backend.entity.User;
-import com.citu.nasync_backend.repository.DutyDayRepository;
-import com.citu.nasync_backend.repository.SemesterRepository;
-import com.citu.nasync_backend.repository.UserRepository;
+import com.citu.nasync_backend.features.dutyday.CreateDutyDayRequest;
+import com.citu.nasync_backend.features.dutyday.DutyDayResponse;
+import com.citu.nasync_backend.shared.entity.DutyDay;
+import com.citu.nasync_backend.shared.entity.Semester;
+import com.citu.nasync_backend.shared.entity.User;
+import com.citu.nasync_backend.shared.repository.DutyDayRepository;
+import com.citu.nasync_backend.shared.repository.SemesterRepository;
+import com.citu.nasync_backend.shared.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

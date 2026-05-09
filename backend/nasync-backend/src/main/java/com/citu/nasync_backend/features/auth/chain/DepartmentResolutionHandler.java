@@ -1,8 +1,8 @@
 package com.citu.nasync_backend.features.auth.chain;
 
 import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
-import com.citu.nasync_backend.entity.Department;
-import com.citu.nasync_backend.repository.DepartmentRepository;
+import com.citu.nasync_backend.shared.entity.Department;
+import com.citu.nasync_backend.shared.repository.DepartmentRepository;
 
 public class DepartmentResolutionHandler extends UserRegistrationHandler {
 

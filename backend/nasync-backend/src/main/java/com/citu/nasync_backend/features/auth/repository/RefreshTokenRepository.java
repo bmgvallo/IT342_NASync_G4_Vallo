@@ -3,7 +3,7 @@ package com.citu.nasync_backend.features.auth.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.citu.nasync_backend.features.auth.entity.RefreshToken;
-import com.citu.nasync_backend.entity.User;
+import com.citu.nasync_backend.shared.entity.User;
 import java.util.Optional;
 import jakarta.transaction.Transactional;
  

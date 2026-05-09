@@ -1,9 +1,9 @@
 package com.citu.nasync_backend.features.semester;
  
-import com.citu.nasync_backend.dto.request.CreateSemesterRequest;
-import com.citu.nasync_backend.dto.response.SemesterResponse;
-import com.citu.nasync_backend.entity.Semester;
-import com.citu.nasync_backend.repository.SemesterRepository;
+import com.citu.nasync_backend.features.semester.CreateSemesterRequest;
+import com.citu.nasync_backend.features.semester.SemesterResponse;
+import com.citu.nasync_backend.shared.entity.Semester;
+import com.citu.nasync_backend.shared.repository.SemesterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

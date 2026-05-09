@@ -1,12 +1,12 @@
 package com.citu.nasync_backend.features.auth;
 
 import com.citu.nasync_backend.features.auth.dto.AuthResponse;
-import com.citu.nasync_backend.dto.response.UserResponse;
-import com.citu.nasync_backend.entity.User;
+import com.citu.nasync_backend.shared.dto.response.UserResponse;
+import com.citu.nasync_backend.shared.entity.User;
 import com.citu.nasync_backend.features.auth.repository.RefreshTokenRepository;
-import com.citu.nasync_backend.repository.UserRepository;
-import com.citu.nasync_backend.security.JwtUtil;
-import com.citu.nasync_backend.security.OAuth2UserAdapter;
+import com.citu.nasync_backend.shared.repository.UserRepository;
+import com.citu.nasync_backend.shared.security.JwtUtil;
+import com.citu.nasync_backend.shared.security.OAuth2UserAdapter;
 import com.citu.nasync_backend.features.auth.strategy.AuthResponseBuilder;
 import com.citu.nasync_backend.features.auth.strategy.AuthenticationStrategy;
 import com.citu.nasync_backend.features.auth.strategy.FormLoginCredentials;

@@ -1,7 +1,7 @@
 package com.citu.nasync_backend.features.auth.chain;
 
-import com.citu.nasync_backend.entity.Branch;
-import com.citu.nasync_backend.entity.Department;
+import com.citu.nasync_backend.shared.entity.Branch;
+import com.citu.nasync_backend.shared.entity.Department;
 
 public class RegistrationContext {
 

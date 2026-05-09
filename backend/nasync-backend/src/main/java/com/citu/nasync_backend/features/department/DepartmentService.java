@@ -1,8 +1,8 @@
 package com.citu.nasync_backend.features.department;
 
-import com.citu.nasync_backend.dto.response.DepartmentResponse;
-import com.citu.nasync_backend.entity.Department;
-import com.citu.nasync_backend.repository.DepartmentRepository;
+import com.citu.nasync_backend.features.department.DepartmentResponse;
+import com.citu.nasync_backend.shared.entity.Department;
+import com.citu.nasync_backend.shared.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

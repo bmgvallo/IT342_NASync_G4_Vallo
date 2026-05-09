@@ -1,6 +1,6 @@
 package com.citu.nasync_backend.features.auth.entity;
 
-import com.citu.nasync_backend.entity.User;
+import com.citu.nasync_backend.shared.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

@@ -1,10 +1,10 @@
 package com.citu.nasync_backend.features.auth.strategy;
 
 import com.citu.nasync_backend.features.auth.dto.AuthResponse;
-import com.citu.nasync_backend.entity.User;
-import com.citu.nasync_backend.enums.Role;
-import com.citu.nasync_backend.repository.UserRepository;
-import com.citu.nasync_backend.security.OAuth2UserAdapter;
+import com.citu.nasync_backend.shared.entity.User;
+import com.citu.nasync_backend.shared.enums.Role;
+import com.citu.nasync_backend.shared.repository.UserRepository;
+import com.citu.nasync_backend.shared.security.OAuth2UserAdapter;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class GoogleOAuthStrategy implements AuthenticationStrategy {

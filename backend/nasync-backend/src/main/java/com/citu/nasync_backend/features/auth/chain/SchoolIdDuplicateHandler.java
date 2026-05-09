@@ -1,7 +1,7 @@
 package com.citu.nasync_backend.features.auth.chain;
 
 import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
-import com.citu.nasync_backend.repository.UserRepository;
+import com.citu.nasync_backend.shared.repository.UserRepository;
 
 public class SchoolIdDuplicateHandler extends UserRegistrationHandler {
 

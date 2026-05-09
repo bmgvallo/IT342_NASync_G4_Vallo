@@ -1,6 +1,6 @@
 package com.citu.nasync_backend.features.branch;
 
-import com.citu.nasync_backend.dto.response.BranchResponse;
+import com.citu.nasync_backend.features.branch.BranchResponse;
 import com.citu.nasync_backend.features.branch.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

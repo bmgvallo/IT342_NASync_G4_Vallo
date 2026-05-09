@@ -1,7 +1,7 @@
 package com.citu.nasync_backend.features.scholar;
 
-import com.citu.nasync_backend.dto.request.ClockInRequest;
-import com.citu.nasync_backend.dto.response.DutyResponse;
+import com.citu.nasync_backend.features.duty.ClockInRequest;
+import com.citu.nasync_backend.features.duty.DutyResponse;
 import com.citu.nasync_backend.features.duty.DutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

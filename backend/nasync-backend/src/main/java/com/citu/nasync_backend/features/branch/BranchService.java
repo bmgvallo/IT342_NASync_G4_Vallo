@@ -1,10 +1,10 @@
 package com.citu.nasync_backend.features.branch;
 
-import com.citu.nasync_backend.dto.response.BranchResponse;
-import com.citu.nasync_backend.entity.Branch;
-import com.citu.nasync_backend.entity.Department;
-import com.citu.nasync_backend.repository.BranchRepository;
-import com.citu.nasync_backend.repository.DepartmentRepository;
+import com.citu.nasync_backend.features.branch.BranchResponse;
+import com.citu.nasync_backend.shared.entity.Branch;
+import com.citu.nasync_backend.shared.entity.Department;
+import com.citu.nasync_backend.shared.repository.BranchRepository;
+import com.citu.nasync_backend.shared.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
