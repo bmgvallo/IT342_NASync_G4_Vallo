@@ -1,22 +1,22 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import Login from './pages/Login';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import ScholarManagement from './pages/admin/ScholarManagement';
-import DepartmentManagement from './pages/admin/DepartmentManagement';
-import BranchManagement from './pages/admin/BranchManagement';
-import DeptHeadManagement from './pages/admin/DeptHeadManagement';
-import UsersPage from './pages/admin/UsersPage';
-import ScholarDashboard from './pages/scholar/ScholarDashboard';
-import './styles/global.css';
-import AuthCallback from './pages/AuthCallback';
-import SemesterManagement from './pages/admin/SemesterManagement';
-import DutyDayManagement from './pages/admin/DutyDayManagement';
-import ScholarMyDuties from './pages/scholar/ScholarMyDuties';
-import DeptHeadDashboard from './pages/depthead/DeptHeadDashboard';
-import PendingDuties from './pages/depthead/PendingDuties';
-import DeptHeadScholars from './pages/depthead/DeptHeadScholars'; 
+import { AuthProvider, useAuth } from './features/auth/AuthContext';
+import ProtectedRoute from './shared/components/ProtectedRoute';
+import Login from './features/auth/Login';
+import AdminDashboard from './features/admin/AdminDashboard';
+import ScholarManagement from './features/admin/ScholarManagement';
+import DepartmentManagement from './features/department/DepartmentManagement';
+import BranchManagement from './features/branch/BranchManagement';
+import DeptHeadManagement from './features/admin/DeptHeadManagement';
+import UsersPage from './features/admin/UsersPage';
+import ScholarDashboard from './features/scholar/ScholarDashboard';
+import './shared/styles/global.css';
+import AuthCallback from './features/auth/AuthCallback';
+import SemesterManagement from './features/semester/SemesterManagement';
+import DutyDayManagement from './features/dutyday/DutyDayManagement';
+import ScholarMyDuties from './features/scholar/ScholarMyDuties';
+import DeptHeadDashboard from './features/depthead/DeptHeadDashboard';
+import PendingDuties from './features/depthead/PendingDuties';
+import DeptHeadScholars from './features/depthead/DeptHeadScholars';
 
 
 const Unauthorized = () => (
