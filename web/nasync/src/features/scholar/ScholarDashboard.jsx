@@ -40,7 +40,7 @@ export default function ScholarDashboard() {
       setOpenDuty(open || null);
  
       const regularDone = todayDuties.some(
-        d => d.dutyType === 'REGULAR' && d.status !== 'REJECTED'
+        d => d.dutyType === 'REGULAR' && d.approvalStatus !== 'REJECTED'
       );
       setHasRegularToday(regularDone);
  

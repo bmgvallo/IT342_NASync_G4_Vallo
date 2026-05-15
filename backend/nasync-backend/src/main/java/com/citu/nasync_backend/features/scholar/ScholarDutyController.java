@@ -3,6 +3,7 @@ package com.citu.nasync_backend.features.scholar;
 import com.citu.nasync_backend.features.duty.ClockInRequest;
 import com.citu.nasync_backend.features.duty.DutyResponse;
 import com.citu.nasync_backend.features.duty.DutyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,7 @@ public class ScholarDutyController {
     @Autowired private DutyService dutyService;
  
     @PostMapping("/clock-in")
-    public ResponseEntity<?> clockIn(@RequestBody ClockInRequest request,
+    public ResponseEntity<?> clockIn(@RequestBody @Valid ClockInRequest request,
                                      Authentication auth) {
         try {
             return ResponseEntity.ok(dutyService.clockIn(auth.getName(), request));

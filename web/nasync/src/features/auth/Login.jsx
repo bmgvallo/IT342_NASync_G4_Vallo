@@ -29,6 +29,15 @@ export default function Login() {
     }
   }, [isAuthenticated, user, navigate]);
 
+  // display OAuth error forwarded via ?error query param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const oauthError = params.get('error');
+    if (oauthError) {
+      setError(oauthError);
+    }
+  }, [location.search]);
+
   const from = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (e) => {

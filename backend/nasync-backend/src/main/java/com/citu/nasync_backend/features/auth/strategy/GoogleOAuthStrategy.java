@@ -36,20 +36,9 @@ public class GoogleOAuthStrategy implements AuthenticationStrategy {
                 .orElseGet(() -> userRepository.findByEmail(email).orElse(null));
 
         if (user == null) {
-            user = new User.Builder()
-                    .schoolId("google_" + googleId.substring(0, 8))
-                    .firstName(firstName != null ? firstName : "Google")
-                    .lastName(lastName != null ? lastName : "User")
-                    .email(email)
-                    .personalGmail(email)
-                    .passwordHash(null)
-                    .role(Role.SCHOLAR)
-                    .active(true)
-                    .firstTimeLogin(true)
-                    .oauthProvider("google")
-                    .oauthSubject(googleId)
-                    .build();
-            userRepository.save(user);
+            throw new IllegalArgumentException(
+                "Your Google account is not registered in NASync. Please contact the OAS Admin."
+            );
         } else {
             if (user.getRole() == Role.ADMIN) {
                 throw new IllegalArgumentException("Admin accounts cannot use Google login");
