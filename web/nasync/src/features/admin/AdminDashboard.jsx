@@ -1,11 +1,20 @@
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../features/auth/AuthContext';
 import Layout from '../../shared/components/Layout';
+import { semesterApi } from '../../shared/api';
 import { useNavigate } from 'react-router-dom';
 import '../../shared/styles/admin.css'
 
 export default function AdminDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [activeSemester, setActiveSemester] = useState(undefined);
+
+  useEffect(() => {
+    semesterApi.getActive()
+      .then(r => setActiveSemester(r.data?.semesterId ? r.data : null))
+      .catch(() => setActiveSemester(null));
+  }, []);
 
   const stats = [
     { label: 'Total Scholars', value: '—', sub: 'Active this semester', accent: 'accent-navy' },
@@ -40,6 +49,17 @@ export default function AdminDashboard() {
             })}
           </p>
         </div>
+
+        {activeSemester === null && (
+          <div className="alert alert-error" style={{ marginBottom: '1.25rem' }}>
+            <strong>No active semester.</strong> System duty operations are paused.
+            <div style={{ marginTop: '0.5rem', display: 'flex', gap: '8px' }}>
+              <button className="btn btn-sm btn-primary" onClick={() => navigate('/admin/semesters')}>
+                Manage Semesters
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="stats-grid">
           {stats.map((stat, index) => (

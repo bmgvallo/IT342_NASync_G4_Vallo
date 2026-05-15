@@ -10,7 +10,9 @@ import com.citu.nasync_backend.shared.repository.SemesterRepository;
 import com.citu.nasync_backend.shared.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
  
 @Service
 public class DutyDayService {
@@ -22,6 +24,12 @@ public class DutyDayService {
     public DutyDayResponse createDutyDay(CreateDutyDayRequest request, String adminSchoolId) {
         Semester semester = semesterRepository.findById(request.getSemesterId())
             .orElseThrow(() -> new RuntimeException("Semester not found"));
+        if (request.getDayDate().isBefore(semester.getStartDate()) ||
+                request.getDayDate().isAfter(semester.getEndDate())) {
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+            throw new RuntimeException("Duty day date must fall within the semester's date range (" +
+                semester.getStartDate().format(fmt) + " to " + semester.getEndDate().format(fmt) + ").");
+        }
         if (dutyDayRepository.existsByDayDateAndSemester(request.getDayDate(), semester))
             throw new RuntimeException("A duty day is already marked for this date in this semester");
         User admin = userRepository.findBySchoolId(adminSchoolId)
