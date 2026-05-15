@@ -40,13 +40,14 @@ export default function PendingDuties() {
  
   const load = () => {
     setLoading(true);
-    deptHeadApi.getAllDuties()
-      .then(r => {
-        const allDuties = r.data || [];
-        const pending = allDuties.filter(d => d.approvalStatus === 'PENDING');
-        const history = allDuties.filter(d => d.approvalStatus !== 'PENDING');
-        setPendingDuties(pending);
-        setHistoryDuties(history);
+    Promise.all([
+      deptHeadApi.getPendingDuties(),
+      deptHeadApi.getAllDuties(),
+    ])
+      .then(([pendingRes, allRes]) => {
+        setPendingDuties(pendingRes.data || []);
+        const allDuties = allRes.data || [];
+        setHistoryDuties(allDuties.filter(d => d.approvalStatus !== 'PENDING'));
       })
       .catch(e => console.error(e))
       .finally(() => setLoading(false));

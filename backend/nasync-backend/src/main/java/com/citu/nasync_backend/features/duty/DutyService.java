@@ -10,6 +10,7 @@ import com.citu.nasync_backend.shared.enums.AttendanceStatus;
 import com.citu.nasync_backend.shared.enums.DutyType;
 import com.citu.nasync_backend.shared.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
  
 import java.time.Duration;
@@ -80,8 +81,8 @@ public class DutyService {
             // calculate minutes late
             long minutesLate = Duration.between(expectedIn, now).toMinutes();
             
-            // 60 minutes or more late = ABSENT, cannot clock in
-            if (minutesLate >= 60) {
+            // more than 60 minutes late = ABSENT, cannot clock in
+            if (minutesLate > 60) {
                 // create absent record
                 Duty absentDuty = new Duty();
                 absentDuty.setScholar(scholar);
@@ -243,6 +244,8 @@ public class DutyService {
             .orElseThrow(() -> new RuntimeException("User not found"));
         Duty duty = dutyRepository.findById(dutyId)
             .orElseThrow(() -> new RuntimeException("Duty not found"));
+        if (!duty.getScholar().getBranch().getBranchId().equals(deptHead.getBranch().getBranchId()))
+            throw new AccessDeniedException("You are not authorized to manage this duty.");
         if (duty.getApprovalStatus() != DutyStatus.PENDING)
             throw new RuntimeException("Only PENDING duties can be approved.");
         duty.setApprovalStatus(DutyStatus.APPROVED);
@@ -257,6 +260,8 @@ public class DutyService {
             .orElseThrow(() -> new RuntimeException("User not found"));
         Duty duty = dutyRepository.findById(dutyId)
             .orElseThrow(() -> new RuntimeException("Duty not found"));
+        if (!duty.getScholar().getBranch().getBranchId().equals(deptHead.getBranch().getBranchId()))
+            throw new AccessDeniedException("You are not authorized to manage this duty.");
         if (duty.getApprovalStatus() != DutyStatus.PENDING)
             throw new RuntimeException("Only PENDING duties can be rejected.");
         duty.setApprovalStatus(DutyStatus.REJECTED);

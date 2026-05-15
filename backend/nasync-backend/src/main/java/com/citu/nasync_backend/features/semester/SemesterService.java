@@ -6,6 +6,7 @@ import com.citu.nasync_backend.shared.entity.Semester;
 import com.citu.nasync_backend.shared.repository.SemesterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
  
@@ -38,14 +39,11 @@ public class SemesterService {
             .stream().map(SemesterResponse::from).toList();
     }
  
+    @Transactional
     public SemesterResponse activateSemester(Long id) {
-        // deactivate all first
-        semesterRepository.findAll().forEach(s -> {
-            s.setActive(false);
-            semesterRepository.save(s);
-        });
         Semester semester = semesterRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Semester not found"));
+        semesterRepository.deactivateAll();
         semester.setActive(true);
         return SemesterResponse.from(semesterRepository.save(semester));
     }

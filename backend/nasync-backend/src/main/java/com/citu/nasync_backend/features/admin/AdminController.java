@@ -4,6 +4,7 @@ import com.citu.nasync_backend.features.auth.dto.RegisterUserRequest;
 import com.citu.nasync_backend.shared.dto.response.UserResponse;
 import com.citu.nasync_backend.shared.enums.Role;
 import com.citu.nasync_backend.features.admin.AdminService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +22,7 @@ public class AdminController {
     @Autowired private AdminService adminService;
 
     @PostMapping("/users/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterUserRequest request) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterUserRequest request) {
         try {
             UserResponse user = adminService.registerUser(request);
             return ResponseEntity.status(201).body(user);
@@ -70,7 +71,7 @@ public class AdminController {
 
     @PutMapping("/users/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId,
-                                        @RequestBody RegisterUserRequest request) {
+                                        @RequestBody @Valid RegisterUserRequest request) {
         try {
             UserResponse updated = adminService.updateUser(userId, request);
             return ResponseEntity.ok(updated);

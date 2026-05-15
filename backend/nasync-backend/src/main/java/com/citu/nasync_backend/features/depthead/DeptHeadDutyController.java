@@ -5,6 +5,7 @@ import com.citu.nasync_backend.features.duty.DutyResponse;
 import com.citu.nasync_backend.features.duty.DutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -47,11 +48,13 @@ public class DeptHeadDutyController {
         try {
             DutyResponse r = dutyService.approveDuty(id, auth.getName(), req);
             return ResponseEntity.ok(r);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(403).body(Map.of("error", e.getMessage()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
- 
+
     @PutMapping("/{id}/reject")
     public ResponseEntity<?> reject(@PathVariable Long id,
                                     @RequestBody(required = false) ApprovalRequest req,
@@ -59,6 +62,8 @@ public class DeptHeadDutyController {
         try {
             DutyResponse r = dutyService.rejectDuty(id, auth.getName(), req);
             return ResponseEntity.ok(r);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(403).body(Map.of("error", e.getMessage()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

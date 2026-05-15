@@ -3,6 +3,7 @@ package com.citu.nasync_backend.features.semester;
 import com.citu.nasync_backend.features.semester.CreateSemesterRequest;
 import com.citu.nasync_backend.features.semester.SemesterResponse;
 import com.citu.nasync_backend.features.semester.SemesterService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +20,7 @@ public class SemesterController {
     @Autowired private SemesterService semesterService;
  
     @PostMapping
-    public ResponseEntity<?> createSemester(@RequestBody CreateSemesterRequest request) {
+    public ResponseEntity<?> createSemester(@RequestBody @Valid CreateSemesterRequest request) {
         try {
             SemesterResponse r = semesterService.createSemester(request);
             return ResponseEntity.status(201).body(r);

@@ -6,6 +6,7 @@ import com.citu.nasync_backend.shared.dto.response.UserResponse;
 import com.citu.nasync_backend.features.auth.AuthService;
 import com.citu.nasync_backend.shared.security.JwtUtil;
 import com.citu.nasync_backend.shared.security.TokenBlacklistService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
         AuthResponse response = authService.login(
                 request.getSchoolId(),
                 request.getPassword()
@@ -56,6 +57,8 @@ public class AuthController {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 String token = authHeader.substring(7);
                 tokenBlacklistService.blacklistToken(token);
+                String schoolId = jwtUtil.extractSchoolId(token);
+                authService.logout(schoolId);
                 return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
             }
             return ResponseEntity.badRequest().body(Map.of("error", "Invalid token"));

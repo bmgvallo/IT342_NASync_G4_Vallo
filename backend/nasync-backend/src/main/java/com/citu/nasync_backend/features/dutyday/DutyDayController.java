@@ -3,6 +3,7 @@ package com.citu.nasync_backend.features.dutyday;
 import com.citu.nasync_backend.features.dutyday.CreateDutyDayRequest;
 import com.citu.nasync_backend.features.dutyday.DutyDayResponse;
 import com.citu.nasync_backend.features.dutyday.DutyDayService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,7 @@ public class DutyDayController {
     @Autowired private DutyDayService dutyDayService;
  
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateDutyDayRequest request,
+    public ResponseEntity<?> create(@RequestBody @Valid CreateDutyDayRequest request,
                                     Authentication auth) {
         try {
             DutyDayResponse r = dutyDayService.createDutyDay(request, auth.getName());
