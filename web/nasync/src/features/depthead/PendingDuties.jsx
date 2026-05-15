@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
-import { deptHeadApi } from '../../shared/api';
+import { deptHeadApi, semesterApi } from '../../shared/api';
 import '../../shared/styles/admin.css';
  
 const STATUS_BADGE = {
@@ -23,6 +23,7 @@ export default function PendingDuties() {
   const [remarks, setRemarks] = useState('');
   const [modalType, setModalType] = useState(null);
   const [message, setMessage] = useState({ text: '', type: '' });
+  const [activeSemester, setActiveSemester] = useState(undefined);
  
   const showMsg = (text, type = 'success') => {
     setMessage({ text, type });
@@ -43,11 +44,13 @@ export default function PendingDuties() {
     Promise.all([
       deptHeadApi.getPendingDuties(),
       deptHeadApi.getAllDuties(),
+      semesterApi.getActive().catch(() => ({ data: null })),
     ])
-      .then(([pendingRes, allRes]) => {
+      .then(([pendingRes, allRes, semRes]) => {
         setPendingDuties(pendingRes.data || []);
         const allDuties = allRes.data || [];
         setHistoryDuties(allDuties.filter(d => d.approvalStatus !== 'PENDING'));
+        setActiveSemester(semRes.data?.semesterId ? semRes.data : null);
       })
       .catch(e => console.error(e))
       .finally(() => setLoading(false));
@@ -88,6 +91,12 @@ export default function PendingDuties() {
           </div>
         </div>
  
+        {activeSemester === null && (
+          <div className="alert alert-error">
+            No active semester. Duty workflows are currently paused.
+          </div>
+        )}
+
         {message.text && (
           <div className={`alert alert-${message.type}`}>{message.text}</div>
         )}

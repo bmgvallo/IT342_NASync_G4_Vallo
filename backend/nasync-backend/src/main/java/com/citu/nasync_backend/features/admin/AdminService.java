@@ -39,6 +39,15 @@ public class AdminService {
         RegistrationContext context = new RegistrationContext();
         chain.handle(request, context);
 
+        if (context.getBranch() != null && context.getDepartment() != null &&
+                !context.getBranch().getDepartment().getDepartmentId()
+                        .equals(context.getDepartment().getDepartmentId()))
+            throw new RuntimeException("The selected branch does not belong to the specified department.");
+
+        if (request.getRole() == Role.DEPARTMENT_HEAD && context.getBranch() != null &&
+                userRepository.existsByBranchAndRole(context.getBranch(), Role.DEPARTMENT_HEAD))
+            throw new RuntimeException("This branch already has an assigned Department Head.");
+
         String hashedPassword = passwordEncoder.encode(request.getSchoolId());
 
         User user = new User.Builder()
@@ -108,7 +117,16 @@ public class AdminService {
         
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
+
+        String newEmail = request.getEmail();
+        if (newEmail != null && !newEmail.equals(user.getEmail())) {
+            userRepository.findByEmail(newEmail).ifPresent(existing -> {
+                if (!existing.getUserId().equals(userId)) {
+                    throw new RuntimeException("Email is already in use by another account.");
+                }
+            });
+        }
+        user.setEmail(newEmail);
         user.setPersonalGmail(request.getPersonalGmail());
         
         if (request.getDeptId() != null) {
@@ -119,6 +137,16 @@ public class AdminService {
         if (request.getBranchId() != null) {
             Branch branch = branchRepository.findById(request.getBranchId())
                 .orElseThrow(() -> new RuntimeException("Branch not found"));
+            Department effectiveDept = user.getDepartment();
+            if (effectiveDept != null && branch.getDepartment() != null &&
+                    !branch.getDepartment().getDepartmentId().equals(effectiveDept.getDepartmentId()))
+                throw new RuntimeException("The selected branch does not belong to the specified department.");
+            if (user.getRole() == Role.DEPARTMENT_HEAD) {
+                boolean alreadyAssigned = userRepository.findByBranchAndRole(branch, Role.DEPARTMENT_HEAD)
+                    .stream().anyMatch(u -> !u.getUserId().equals(userId));
+                if (alreadyAssigned)
+                    throw new RuntimeException("This branch already has an assigned Department Head.");
+            }
             user.setBranch(branch);
         }
         if (request.getShift() != null) user.setShift(request.getShift());

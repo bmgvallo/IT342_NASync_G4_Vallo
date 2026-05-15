@@ -44,9 +44,13 @@ public class DutyService {
             .orElseThrow(() -> new RuntimeException("User not found"));
 
         Semester semester = semesterRepository.findByIsActiveTrue()
-            .orElseThrow(() -> new RuntimeException("No active semester. Contact OAS Admin."));
+            .orElseThrow(() -> new RuntimeException("SEM-001: No active semester available. Duty recording is temporarily disabled."));
 
         LocalDate today = LocalDate.now();
+
+        if (today.isBefore(semester.getStartDate()) || today.isAfter(semester.getEndDate()))
+            throw new RuntimeException("SEM-002: Clock-in is not allowed outside the active semester's date range (" +
+                semester.getStartDate() + " to " + semester.getEndDate() + ").");
 
         // no clock in for holiday/suspended days
         dutyDayRepository.findByDayDateAndSemester(today, semester)
@@ -78,9 +82,16 @@ public class DutyService {
 
         // regular duty late rules only apply if expected time in is set
         if (dutyType == DutyType.REGULAR && expectedIn != null) {
-            // calculate minutes late
+            // calculate minutes late (negative = early)
             long minutesLate = Duration.between(expectedIn, now).toMinutes();
-            
+
+            // too early: more than 15 minutes before scheduled start
+            if (minutesLate < -15) {
+                throw new RuntimeException(
+                    "Clock-in is too early. You may only clock in up to 15 minutes before your scheduled start time (" +
+                    formatTo12Hour(expectedIn) + ").");
+            }
+
             // more than 60 minutes late = ABSENT, cannot clock in
             if (minutesLate > 60) {
                 // create absent record
@@ -130,6 +141,9 @@ public class DutyService {
  
     // clockout logic
     public DutyResponse clockOut(String schoolId) {
+        semesterRepository.findByIsActiveTrue()
+            .orElseThrow(() -> new RuntimeException("SEM-001: No active semester available. Duty recording is temporarily disabled."));
+
         User scholar = userRepository.findBySchoolId(schoolId)
             .orElseThrow(() -> new RuntimeException("User not found"));
  

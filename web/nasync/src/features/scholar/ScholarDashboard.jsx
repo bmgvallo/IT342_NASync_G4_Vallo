@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../features/auth/AuthContext';
 import Layout from '../../shared/components/Layout';
-import { scholarDutyApi } from '../../shared/api';
+import { scholarDutyApi, semesterApi } from '../../shared/api';
 import { useNavigate } from 'react-router-dom';
 import '../../shared/styles/scholar.css';
  
@@ -16,6 +16,7 @@ export default function ScholarDashboard() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
+  const [activeSemester, setActiveSemester] = useState(undefined);
  
   const showMsg = (text, type = 'success') => {
     setMessage({ text, type });
@@ -25,13 +26,16 @@ export default function ScholarDashboard() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [sumRes, dutiesRes] = await Promise.all([
+      const [sumRes, dutiesRes, semRes] = await Promise.all([
         scholarDutyApi.getSummary(),
         scholarDutyApi.getMyDuties(),
+        semesterApi.getActive().catch(() => ({ data: null })),
       ]);
       setSummary(sumRes.data);
+      setActiveSemester(semRes.data?.semesterId ? semRes.data : null);
  
-      const today = new Date().toISOString().slice(0, 10);
+      const _now = new Date();
+      const today = `${_now.getFullYear()}-${String(_now.getMonth() + 1).padStart(2, '0')}-${String(_now.getDate()).padStart(2, '0')}`;
       const todayDuties = (dutiesRes.data || []).filter(
         d => d.dutyDate === today
       );
@@ -136,6 +140,12 @@ export default function ScholarDashboard() {
           </div>
         )}
  
+        {activeSemester === null && (
+          <div className="scholar-alert scholar-alert-error">
+            <span>No active semester is currently available. Duty recording is temporarily disabled.</span>
+          </div>
+        )}
+
         <div className="duty-clock-card">
           <div className="duty-clock-header">
             <div>
@@ -162,7 +172,7 @@ export default function ScholarDashboard() {
                 <button
                   className="btn btn-danger clock-btn"
                   onClick={handleClockOut}
-                  disabled={actionLoading}
+                  disabled={actionLoading || activeSemester === null}
                 >
                   {actionLoading ? (
                     <><span className="btn-spinner"></span> Processing…</>
@@ -201,7 +211,7 @@ export default function ScholarDashboard() {
                 <button
                   className="btn btn-primary clock-btn"
                   onClick={handleClockIn}
-                  disabled={actionLoading}
+                  disabled={actionLoading || activeSemester === null}
                 >
                   {actionLoading ? (
                     <><span className="btn-spinner"></span> Processing…</>

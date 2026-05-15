@@ -53,6 +53,7 @@ public class SemesterController {
     }
  
     @GetMapping("/active")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getActiveSemester() {
         return semesterService.getActiveSemester()
             .<ResponseEntity<?>>map(ResponseEntity::ok)
