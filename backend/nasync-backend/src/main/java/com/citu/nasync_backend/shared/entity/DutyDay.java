@@ -1,5 +1,6 @@
 package com.citu.nasync_backend.shared.entity;
  
+import com.citu.nasync_backend.shared.config.ClockHolder;
 import com.citu.nasync_backend.shared.enums.DayType;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class DutyDay {
     private LocalDateTime createdAt;
  
     @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
+    protected void onCreate() { this.createdAt = LocalDateTime.now(ClockHolder.get()); }
  
     public DutyDay() {}
  

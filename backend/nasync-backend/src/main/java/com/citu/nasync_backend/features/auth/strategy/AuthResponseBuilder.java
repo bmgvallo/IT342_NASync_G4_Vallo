@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -22,6 +23,9 @@ public class AuthResponseBuilder {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
+    @Autowired
+    private Clock clock;
+
     @Transactional
     public AuthResponse build(User user) {
         String accessToken    = jwtUtil.generateToken(user.getSchoolId(), user.getRole().name());
@@ -33,7 +37,7 @@ public class AuthResponseBuilder {
         RefreshToken refreshToken = new RefreshToken(
                 user,
                 rawRefreshToken,
-                LocalDateTime.now().plusDays(7)
+                LocalDateTime.now(clock).plusDays(7)
         );
         refreshTokenRepository.save(refreshToken);
 

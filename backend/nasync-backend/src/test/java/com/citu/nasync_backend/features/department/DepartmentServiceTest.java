@@ -56,16 +56,17 @@ class DepartmentServiceTest {
         assertThrows(RuntimeException.class, () -> departmentService.createDepartment("CITE"));
     }
 
-    // DEPT-05: cannot delete department with branches
+    // DEPT-05: cannot deactivate department with active branches
     @Test
-    void deleteDepartment_hasBranches_throwsException() {
+    void deactivateDepartment_hasActiveBranches_throwsException() {
         Department d = dept("CITE");
         Branch b = new Branch();
         b.setBranchId(1L);
+        b.setActive(true);
         d.setBranches(List.of(b));
         when(departmentRepository.findById(1L)).thenReturn(Optional.of(d));
 
-        assertThrows(RuntimeException.class, () -> departmentService.deleteDepartment(1L));
+        assertThrows(RuntimeException.class, () -> departmentService.deactivateDepartment(1L));
     }
 
     // DEPT-04: update department name

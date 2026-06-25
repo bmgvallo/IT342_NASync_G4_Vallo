@@ -1,6 +1,7 @@
 package com.vallo.nasync.features.admin
 
 import com.vallo.nasync.BaseDrawerActivity
+import com.vallo.nasync.R
 import com.vallo.nasync.features.auth.RegisterActivity
 import android.content.Intent
 import android.os.Bundle
@@ -29,6 +30,9 @@ class AdminDashboardActivity : BaseDrawerActivity() {
         val dateFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
         findViewById<TextView>(R.id.tvDate).text = dateFormat.format(Date())
 
+        findViewById<CardView>(R.id.card_scholars).setOnClickListener {
+            startActivity(Intent(this, AdminScholarsActivity::class.java))
+        }
         findViewById<CardView>(R.id.card_register).setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
@@ -37,10 +41,9 @@ class AdminDashboardActivity : BaseDrawerActivity() {
     }
 
     private fun loadStats() {
-        val token = "Bearer ${getSharedPreferences("auth_prefs", MODE_PRIVATE).getString("access_token", "")}"
         lifecycleScope.launch {
             try {
-                val scholarsResponse = RetrofitClient.api.getScholars(token)
+                val scholarsResponse = RetrofitClient.api.getScholars()
                 if (scholarsResponse.isSuccessful) {
                     val scholars = scholarsResponse.body() ?: emptyList()
                     updateStatCard(R.id.stat_scholars, "Scholars", scholars.size.toString())

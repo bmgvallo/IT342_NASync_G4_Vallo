@@ -1,5 +1,6 @@
 package com.citu.nasync_backend.shared.entity;
  
+import com.citu.nasync_backend.shared.config.ClockHolder;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class Semester {
     private LocalDateTime createdAt;
  
     @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
+    protected void onCreate() { this.createdAt = LocalDateTime.now(ClockHolder.get()); }
  
     public Semester() {}
  

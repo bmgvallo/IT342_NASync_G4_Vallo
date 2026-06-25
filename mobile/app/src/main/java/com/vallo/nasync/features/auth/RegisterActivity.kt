@@ -48,10 +48,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun loadDepartments() {
-        val token = getToken()
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.api.getDepartments(token)
+                val response = RetrofitClient.api.getDepartments()
                 if (response.isSuccessful) {
                     departments = response.body()?.get("data") ?: emptyList()
                     val deptNames = listOf("Select Department") + departments.map { it.name }
@@ -68,10 +67,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun loadBranches(deptId: Long) {
-        val token = getToken()
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.api.getBranches(token)
+                val response = RetrofitClient.api.getBranches()
                 if (response.isSuccessful) {
                     val allBranches = response.body()?.get("data") ?: emptyList()
                     branches = allBranches.filter { it.deptId == deptId }
@@ -125,10 +123,11 @@ class RegisterActivity : AppCompatActivity() {
             expectedTimeOut = if (shift == "MORNING") "12:00:00" else "17:00:00"
         )
 
-        val token = getToken()
+        binding.btnRegister.isEnabled = false
+        binding.btnRegister.text = "Registering…"
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.api.registerUser(token, request)
+                val response = RetrofitClient.api.registerUser(request)
                 if (response.isSuccessful) {
                     Toast.makeText(this@RegisterActivity, "Scholar registered successfully!", Toast.LENGTH_LONG).show()
                     finish()
@@ -138,12 +137,11 @@ class RegisterActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@RegisterActivity, "Network error: ${e.message}", Toast.LENGTH_LONG).show()
+            } finally {
+                binding.btnRegister.isEnabled = true
+                binding.btnRegister.text = "Register"
             }
         }
     }
 
-    private fun getToken(): String {
-        val prefs = getSharedPreferences("auth_prefs", MODE_PRIVATE)
-        return "Bearer ${prefs.getString("access_token", "")}"
-    }
 }

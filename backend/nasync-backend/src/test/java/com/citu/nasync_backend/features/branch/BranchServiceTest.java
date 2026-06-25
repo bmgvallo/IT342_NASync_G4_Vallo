@@ -67,9 +67,9 @@ class BranchServiceTest {
         assertThrows(RuntimeException.class, () -> branchService.createBranch("Alpha", 1L));
     }
 
-    // BRANCH-06: cannot delete branch with users
+    // BRANCH-06: cannot deactivate branch with users
     @Test
-    void deleteBranch_hasUsers_throwsException() {
+    void deactivateBranch_hasUsers_throwsException() {
         Branch b = branch("Alpha");
         b.setUsers(List.of(new com.citu.nasync_backend.shared.entity.User.Builder()
         .schoolId("2021-00001").firstName("Test").lastName("User")
@@ -78,17 +78,17 @@ class BranchServiceTest {
 
         when(branchRepository.findById(1L)).thenReturn(Optional.of(b));
 
-        assertThrows(RuntimeException.class, () -> branchService.deleteBranch(1L));
+        assertThrows(RuntimeException.class, () -> branchService.deactivateBranch(1L));
     }
 
-    // BRANCH-05: delete empty branch succeeds
+    // BRANCH-05: deactivate empty branch succeeds
     @Test
-    void deleteBranch_emptyBranch_succeeds() {
+    void deactivateBranch_noUsers_succeeds() {
         Branch b = branch("Empty");
         b.setUsers(List.of());
         when(branchRepository.findById(1L)).thenReturn(Optional.of(b));
 
-        assertDoesNotThrow(() -> branchService.deleteBranch(1L));
-        verify(branchRepository).delete(b);
+        assertDoesNotThrow(() -> branchService.deactivateBranch(1L));
+        verify(branchRepository).save(b);
     }
 }

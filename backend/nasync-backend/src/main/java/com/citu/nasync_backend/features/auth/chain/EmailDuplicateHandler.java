@@ -13,9 +13,20 @@ public class EmailDuplicateHandler extends UserRegistrationHandler {
 
     @Override
     public void handle(RegisterUserRequest request, RegistrationContext context) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+        if (request.getEmail() != null &&
+            userRepository.existsByEmail(request.getEmail())) {
+
+            throw new RuntimeException("School email already exists.");
         }
-        if (next != null) next.handle(request, context);
+
+        if (request.getPersonalGmail() != null &&
+            userRepository.existsByPersonalGmail(request.getPersonalGmail())) {
+
+            throw new RuntimeException("Personal Gmail already exists.");
+        }
+
+        if (next != null) {
+            next.handle(request, context);
+        }
     }
 }

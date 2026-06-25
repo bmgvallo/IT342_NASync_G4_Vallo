@@ -1,5 +1,6 @@
 package com.citu.nasync_backend.shared.entity;
  
+import com.citu.nasync_backend.shared.config.ClockHolder;
 import com.citu.nasync_backend.shared.enums.DutyStatus;
 import com.citu.nasync_backend.shared.enums.AttendanceStatus;
 import com.citu.nasync_backend.shared.enums.DutyType;
@@ -41,6 +42,9 @@ public class Duty {
  
     @Column(name = "time_out")
     private LocalTime timeOut;
+
+    @Column(name = "expected_time_out")
+    private LocalTime expectedTimeOut;
  
     @Enumerated(EnumType.STRING)
     @Column(name = "approval_status", nullable = false)
@@ -60,10 +64,10 @@ public class Duty {
     private LocalDateTime updatedAt;
  
     @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
- 
+    protected void onCreate() { this.createdAt = LocalDateTime.now(ClockHolder.get()); }
+
     @PreUpdate
-    protected void onUpdate() { this.updatedAt = LocalDateTime.now(); }
+    protected void onUpdate() { this.updatedAt = LocalDateTime.now(ClockHolder.get()); }
  
     public Duty() {}
  
@@ -76,6 +80,7 @@ public class Duty {
     public DutyType getDutyType() { return dutyType; }
     public LocalTime getTimeIn() { return timeIn; }
     public LocalTime getTimeOut() { return timeOut; }
+    public LocalTime getExpectedTimeOut() { return expectedTimeOut; }
     public DutyStatus getApprovalStatus() { return approvalStatus; }
     public AttendanceStatus getAttendanceStatus() { return attendanceStatus; }
     public String getRemarks() { return remarks; }
@@ -91,6 +96,7 @@ public class Duty {
     public void setDutyType(DutyType t) { this.dutyType = t; }
     public void setTimeIn(LocalTime t) { this.timeIn = t; }
     public void setTimeOut(LocalTime t) { this.timeOut = t; }
+    public void setExpectedTimeOut(LocalTime t) { this.expectedTimeOut = t; }
     public void setApprovalStatus(DutyStatus s) { this.approvalStatus = s; }
     public void setAttendanceStatus(AttendanceStatus s) { this.attendanceStatus = s; }
     public void setRemarks(String r) { this.remarks = r; }

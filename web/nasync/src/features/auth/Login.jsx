@@ -19,6 +19,10 @@ export default function Login() {
   // redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
+      if (user?.firstTimeLogin) {
+        navigate('/change-password', { replace: true });
+        return;
+      }
       if (user?.role === 'ADMIN') {
         navigate('/admin', { replace: true });
       } else if (user?.role === 'SCHOLAR') {

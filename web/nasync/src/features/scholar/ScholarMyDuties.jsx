@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
 import { scholarDutyApi } from '../../shared/api';
+import { formatDate, formatTime } from '../../shared/utils/formatters';
 import '../../shared/styles/scholar.css';
 
 const ATTENDANCE_BADGE = {
@@ -15,15 +16,6 @@ const APPROVAL_BADGE = {
   REJECTED: 'badge-danger',
 };
 
-const formatTo12Hour = (timeString) => {
-    if (!timeString) return '—';
-    let [hours, minutes] = timeString.split(':');
-    hours = parseInt(hours);
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const hour12 = hours % 12 || 12;
-    return `${hour12}:${minutes} ${ampm}`;
-};
- 
 export default function ScholarMyDuties() {
   const [duties, setDuties] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -158,14 +150,14 @@ export default function ScholarMyDuties() {
                   <tbody>
                     {filtered.map(d => (
                       <tr key={d.dutyId}>
-                        <td>{d.dutyDate}</td>
+                        <td>{formatDate(d.dutyDate)}</td>
                         <td>
                           <span className={`badge ${d.dutyType === 'REGULAR' ? 'badge-info' : d.dutyType === 'MAKEUP' ? 'badge-gold' : 'badge-maroon'}`}>
                             {d.dutyType}
                           </span>
                         </td>
-                        <td>{formatTo12Hour(d.timeIn)}</td>
-                        <td>{formatTo12Hour(d.timeOut)}</td>
+                        <td>{formatTime(d.timeIn)}</td>
+                        <td>{formatTime(d.timeOut)}</td>
                         <td>
                           <span className={`badge ${ATTENDANCE_BADGE[d.attendanceStatus] || 'badge-muted'}`}>
                             {d.attendanceStatus || '—'}

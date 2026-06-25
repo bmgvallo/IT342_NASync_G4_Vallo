@@ -70,10 +70,20 @@ public class BranchController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBranch(@PathVariable Long id) {
+    public ResponseEntity<?> deactivateBranch(@PathVariable Long id) {
         try {
-            branchService.deleteBranch(id);
-            return ResponseEntity.ok(Map.of("message", "Branch deleted successfully"));
+            branchService.deactivateBranch(id);
+            return ResponseEntity.ok(Map.of("message", "Branch deactivated successfully"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}/reactivate")
+    public ResponseEntity<?> reactivateBranch(@PathVariable Long id) {
+        try {
+            branchService.reactivateBranch(id);
+            return ResponseEntity.ok(Map.of("message", "Branch reactivated successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

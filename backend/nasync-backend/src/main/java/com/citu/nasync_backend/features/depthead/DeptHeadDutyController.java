@@ -1,6 +1,7 @@
 package com.citu.nasync_backend.features.depthead;
 
 import com.citu.nasync_backend.features.duty.ApprovalRequest;
+import com.citu.nasync_backend.features.duty.DecisionRequest;
 import com.citu.nasync_backend.features.duty.DutyResponse;
 import com.citu.nasync_backend.features.duty.DutyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,20 @@ public class DeptHeadDutyController {
         }
     }
 
+    @PutMapping("/{id}/decision")
+    public ResponseEntity<?> changeDecision(@PathVariable Long id,
+                                            @RequestBody DecisionRequest req,
+                                            Authentication auth) {
+        try {
+            DutyResponse r = dutyService.changeDecision(id, auth.getName(), req);
+            return ResponseEntity.ok(r);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(403).body(Map.of("error", e.getMessage()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @GetMapping("/scholars")
     public ResponseEntity<?> getMyScholars(Authentication auth) {
         try {
@@ -79,5 +94,16 @@ public class DeptHeadDutyController {
         }
     }
 
+    @GetMapping("/scholars/{scholarSchoolId}/details")
+    public ResponseEntity<?> getScholarDetails(@PathVariable String scholarSchoolId,
+                                               Authentication auth) {
+        try {
+            return ResponseEntity.ok(dutyService.getScholarDetails(auth.getName(), scholarSchoolId));
+        } catch (org.springframework.security.access.AccessDeniedException e) {
+            return ResponseEntity.status(403).body(Map.of("error", e.getMessage()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
 
 }

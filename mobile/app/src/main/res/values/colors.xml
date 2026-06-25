@@ -11,4 +11,17 @@
     <color name="border">#DDDBD5</color>
     <color name="grey">#9A9590</color>
     <color name="text_soft">#5A5A5A</color>
+    <color name="status_present">#2E7D32</color>
+    <color name="status_late">#E65100</color>
+    <color name="status_absent">#C62828</color>
+    <color name="status_approved">#2E7D32</color>
+    <color name="status_rejected">#C62828</color>
+    <color name="status_pending">#F57C00</color>
+    <color name="badge_green_bg">#E8F5E9</color>
+    <color name="badge_red_bg">#FFEBEE</color>
+    <color name="badge_orange_bg">#FFF3E0</color>
+    <color name="error_red">#C62828</color>
+    <color name="warning_amber">#F59300</color>
+    <color name="warning_amber_bg">#FFF8E1</color>
+    <color name="maroon_disabled">#AA7777</color>
 </resources>

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './features/auth/AuthContext';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import Login from './features/auth/Login';
+import ChangePasswordPage from './features/auth/ChangePasswordPage';
 import AdminDashboard from './features/admin/AdminDashboard';
 import ScholarManagement from './features/admin/ScholarManagement';
 import DepartmentManagement from './features/department/DepartmentManagement';
@@ -17,6 +18,7 @@ import ScholarMyDuties from './features/scholar/ScholarMyDuties';
 import DeptHeadDashboard from './features/depthead/DeptHeadDashboard';
 import PendingDuties from './features/depthead/PendingDuties';
 import DeptHeadScholars from './features/depthead/DeptHeadScholars';
+import ProfilePage from './features/profile/ProfilePage';
 
 
 const Unauthorized = () => (
@@ -32,8 +34,11 @@ const Unauthorized = () => (
 
 const ProtectedLogin = () => {
   const { isAuthenticated, user } = useAuth();
-  
+
   if (isAuthenticated) {
+    if (user?.firstTimeLogin) {
+      return <Navigate to="/change-password" replace />;
+    }
     if (user?.role === 'ADMIN') {
       return <Navigate to="/admin" replace />;
     } else if (user?.role === 'SCHOLAR') {
@@ -43,7 +48,7 @@ const ProtectedLogin = () => {
     }
     return <Navigate to="/" replace />;
   }
-  
+
   return <Login />;
 };
 
@@ -72,6 +77,12 @@ function AppRoutes() {
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="/" element={<RoleBasedRedirect />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/change-password" element={
+        <ProtectedRoute allowedRoles={[]}><ChangePasswordPage /></ProtectedRoute>
+      } />
+      <Route path="/profile" element={
+        <ProtectedRoute allowedRoles={[]}><ProfilePage /></ProtectedRoute>
+      } />
  
       <Route path="/admin" element={
         <ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>
