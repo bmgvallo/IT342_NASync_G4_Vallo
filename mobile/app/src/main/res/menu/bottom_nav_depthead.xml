@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_depthead_dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/ic_dashboard" />
+    <item
+        android:id="@+id/nav_depthead_pending"
+        android:title="Pending"
+        android:icon="@drawable/ic_duty" />
+    <item
+        android:id="@+id/nav_depthead_scholars"
+        android:title="Scholars"
+        android:icon="@drawable/ic_register" />
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_profile" />
+</menu>

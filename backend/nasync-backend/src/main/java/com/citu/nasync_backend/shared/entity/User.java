@@ -1,5 +1,6 @@
 package com.citu.nasync_backend.shared.entity;
 
+import com.citu.nasync_backend.shared.config.ClockHolder;
 import com.citu.nasync_backend.shared.enums.Role;
 import com.citu.nasync_backend.shared.enums.Shift;
 import jakarta.persistence.*;
@@ -71,12 +72,15 @@ public class User {
     @Column(name = "oauth_subject", nullable = true)
     private String oauthSubject;
 
+    @Column(name = "profile_photo_url", nullable = true)
+    private String profilePhotoUrl;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now(ClockHolder.get());
     }
 
     public User() {}
@@ -229,6 +233,7 @@ public class User {
     public Boolean getFirstTimeLogin() { return firstTimeLogin; }
     public String getOauthProvider() { return oauthProvider; }
     public String getOauthSubject() { return oauthSubject; }
+    public String getProfilePhotoUrl() { return profilePhotoUrl; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
     public void setUserId(Long userId) { this.userId = userId; }
@@ -248,4 +253,5 @@ public class User {
     public void setFirstTimeLogin(Boolean firstTimeLogin) { this.firstTimeLogin = firstTimeLogin; }
     public void setOauthProvider(String oauthProvider) { this.oauthProvider = oauthProvider; }
     public void setOauthSubject(String oauthSubject) { this.oauthSubject = oauthSubject; }
+    public void setProfilePhotoUrl(String profilePhotoUrl) { this.profilePhotoUrl = profilePhotoUrl; }
 }

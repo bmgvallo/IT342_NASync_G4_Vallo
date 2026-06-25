@@ -2,6 +2,8 @@ package com.citu.nasync_backend.features.auth;
 
 import com.citu.nasync_backend.features.auth.dto.LoginRequest;
 import com.citu.nasync_backend.features.auth.dto.AuthResponse;
+import com.citu.nasync_backend.features.auth.dto.ChangePasswordRequest;
+import com.citu.nasync_backend.features.auth.dto.UpdateGmailRequest;
 import com.citu.nasync_backend.shared.dto.response.UserResponse;
 import com.citu.nasync_backend.features.auth.AuthService;
 import com.citu.nasync_backend.shared.security.JwtUtil;
@@ -9,6 +11,8 @@ import com.citu.nasync_backend.shared.security.TokenBlacklistService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -64,6 +68,37 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("error", "Invalid token"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", "Logout failed"));
+        }
+    }
+
+    @PutMapping("/change-password")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> changePassword(
+            @RequestBody @Valid ChangePasswordRequest request,
+            Authentication authentication) {
+        try {
+            authService.changePassword(
+                    authentication.getName(),
+                    request.getCurrentPassword(),
+                    request.getNewPassword());
+            return ResponseEntity.ok(Map.of("message", "Password changed successfully."));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/me/gmail")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> updateGmail(
+            @RequestBody @Valid UpdateGmailRequest request,
+            Authentication authentication) {
+        try {
+            UserResponse updated = authService.updatePersonalGmail(
+                    authentication.getName(),
+                    request.getGmail());
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 

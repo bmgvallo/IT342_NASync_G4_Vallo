@@ -1,5 +1,6 @@
 package com.citu.nasync_backend.features.auth.entity;
 
+import com.citu.nasync_backend.shared.config.ClockHolder;
 import com.citu.nasync_backend.shared.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class RefreshToken {
  
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now(ClockHolder.get());
     }
  
     // constructors

@@ -68,6 +68,11 @@ export const AuthProvider = ({ children }) => {
       }
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   const logout = async () => {
     try {
       await authApi.logout();
@@ -83,6 +88,7 @@ export const AuthProvider = ({ children }) => {
     user,
     login,
     logout,
+    updateUser,
     loading,
     error,
     setError,

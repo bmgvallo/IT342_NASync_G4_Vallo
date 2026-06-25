@@ -23,8 +23,15 @@
             </intent-filter>
         </activity>
         <activity android:name="com.vallo.nasync.features.admin.AdminDashboardActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.admin.AdminScholarsActivity" android:exported="false" />
         <activity android:name="com.vallo.nasync.features.scholar.ScholarDashboardActivity" android:exported="false" />
         <activity android:name="com.vallo.nasync.features.auth.RegisterActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.auth.ChangePasswordActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.scholar.DutyHistoryActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.depthead.DeptHeadDashboardActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.depthead.PendingDutiesActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.depthead.ScholarsActivity" android:exported="false" />
+        <activity android:name="com.vallo.nasync.features.profile.ProfileActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
     </application>
 

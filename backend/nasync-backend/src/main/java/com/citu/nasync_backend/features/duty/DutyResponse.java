@@ -18,6 +18,7 @@ public class DutyResponse {
     private DutyType dutyType;
     private LocalTime timeIn;
     private LocalTime timeOut;
+    private LocalTime expectedTimeOut;
     private DutyStatus approvalStatus;
     private AttendanceStatus attendanceStatus;
     private String remarks;
@@ -36,6 +37,7 @@ public class DutyResponse {
         dto.dutyType = d.getDutyType();
         dto.timeIn = d.getTimeIn();
         dto.timeOut = d.getTimeOut();
+        dto.expectedTimeOut = d.getExpectedTimeOut();
         dto.approvalStatus = d.getApprovalStatus();
         dto.attendanceStatus = d.getAttendanceStatus();
         dto.remarks = d.getRemarks();
@@ -55,6 +57,7 @@ public class DutyResponse {
     public DutyType getDutyType() { return dutyType; }
     public LocalTime getTimeIn() { return timeIn; }
     public LocalTime getTimeOut() { return timeOut; }
+    public LocalTime getExpectedTimeOut() { return expectedTimeOut; }
     public DutyStatus getApprovalStatus() { return approvalStatus; }
     public AttendanceStatus getAttendanceStatus() { return attendanceStatus; }
     public String getRemarks() { return remarks; }

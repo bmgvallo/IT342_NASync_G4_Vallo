@@ -13,6 +13,10 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  if (user?.firstTimeLogin && location.pathname !== '/change-password') {
+    return <Navigate to="/change-password" replace />;
+  }
+
   if (allowedRoles.length > 0 && !allowedRoles.includes(user?.role)) {
     if (user?.role === 'ADMIN') {
       return <Navigate to="/admin" replace />;

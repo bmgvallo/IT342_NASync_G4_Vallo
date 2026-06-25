@@ -7,6 +7,7 @@ import com.citu.nasync_backend.shared.repository.BranchRepository;
 import com.citu.nasync_backend.shared.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,14 +63,26 @@ public class BranchService {
         return BranchResponse.from(updatedBranch);
     }
 
-    public void deleteBranch(Long id) {
+    @Transactional
+    public void deactivateBranch(Long id) {
         Branch branch = branchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Branch not found with id: " + id));
-        
+
         if (!branch.getUsers().isEmpty()) {
-            throw new RuntimeException("Cannot delete branch with existing users");
+            throw new RuntimeException("Cannot deactivate branch with assigned users. Reassign users first.");
         }
-        
-        branchRepository.delete(branch);
+
+        branch.setActive(false);
+        branchRepository.save(branch);
+    }
+
+    public void reactivateBranch(Long id) {
+        Branch branch = branchRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Branch not found with id: " + id));
+        if (!branch.getDepartment().isActive()) {
+            throw new RuntimeException("Cannot reactivate branch because its parent department is deactivated. Reactivate the department first.");
+        }
+        branch.setActive(true);
+        branchRepository.save(branch);
     }
 }

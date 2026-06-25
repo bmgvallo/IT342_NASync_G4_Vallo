@@ -25,7 +25,16 @@ public interface DutyRepository extends JpaRepository<Duty, Long> {
     Optional<Duty> findByScholarAndDutyDateAndTimeOutIsNull(User scholar, LocalDate date);
     
     boolean existsByScholarAndDutyDateAndTimeOutIsNull(User scholar, LocalDate date);
-    
+
+    // excludes absent records (timeIn is null) — used for open duty checks
+    boolean existsByScholarAndDutyDateAndTimeInIsNotNullAndTimeOutIsNull(User scholar, LocalDate date);
+
+    Optional<Duty> findByScholarAndDutyDateAndTimeInIsNotNullAndTimeOutIsNull(User scholar, LocalDate date);
+
+    // list form — used for secondary shift eligibility checks
+    List<Duty> findByScholarAndDutyDateAndDutyTypeAndApprovalStatusNot(
+        User scholar, LocalDate date, DutyType dutyType, DutyStatus approvalStatus);
+
     List<Duty> findByScholarAndSemesterAndApprovalStatus(User scholar, Semester semester, DutyStatus approvalStatus);
     
     long countByScholarAndSemesterAndApprovalStatus(User scholar, Semester semester, DutyStatus approvalStatus);
@@ -44,6 +53,14 @@ public interface DutyRepository extends JpaRepository<Duty, Long> {
     boolean existsByScholarAndDutyDateAndDutyTypeAndApprovalStatusNot(
         User scholar, LocalDate date, DutyType dutyType, DutyStatus approvalStatus);
     
+    long countByApprovalStatus(DutyStatus approvalStatus);
+
+    long countBySemesterAndAttendanceStatus(Semester semester, AttendanceStatus attendanceStatus);
+
+    long countByDutyDateAndTimeOutIsNull(LocalDate date);
+
+    List<Duty> findByDutyDateAndTimeInIsNotNullAndTimeOutIsNull(LocalDate date);
+
     @Query("SELECT d FROM Duty d WHERE d.scholar.branch = :branch AND d.approvalStatus = :status ORDER BY d.dutyDate DESC")
     List<Duty> findPendingByBranch(@Param("branch") Branch branch, @Param("status") DutyStatus status);
 }

@@ -1,6 +1,7 @@
 package com.citu.nasync_backend.features.branch;
 
 import com.citu.nasync_backend.shared.entity.Branch;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 public class BranchResponse {
@@ -8,6 +9,7 @@ public class BranchResponse {
     private String name;
     private Long deptId;
     private String departmentName;
+    private boolean isActive;
     private LocalDateTime createdAt;
 
     public static BranchResponse from(Branch branch) {
@@ -16,6 +18,7 @@ public class BranchResponse {
         dto.name = branch.getName();
         dto.deptId = branch.getDepartment() != null ? branch.getDepartment().getDepartmentId() : null;
         dto.departmentName = branch.getDepartment() != null ? branch.getDepartment().getName() : null;
+        dto.isActive = branch.isActive();
         dto.createdAt = branch.getCreatedAt();
         return dto;
     }
@@ -32,6 +35,10 @@ public class BranchResponse {
 
     public String getDepartmentName() { return departmentName; }
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
+
+    @JsonProperty("isActive")
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean isActive) { this.isActive = isActive; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

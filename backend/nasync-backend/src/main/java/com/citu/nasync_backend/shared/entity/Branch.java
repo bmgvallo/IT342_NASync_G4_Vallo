@@ -1,5 +1,6 @@
 package com.citu.nasync_backend.shared.entity;
 
+import com.citu.nasync_backend.shared.config.ClockHolder;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,12 +38,15 @@ public class Branch {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now(ClockHolder.get());
     }
 
     //constructors
@@ -67,6 +71,10 @@ public class Branch {
         return name;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -82,6 +90,10 @@ public class Branch {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
 }

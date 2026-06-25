@@ -1,26 +1,41 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../features/auth/AuthContext';
 import Layout from '../../shared/components/Layout';
-import { semesterApi } from '../../shared/api';
+import { semesterApi, adminApi, authApi } from '../../shared/api';
 import { useNavigate } from 'react-router-dom';
 import '../../shared/styles/admin.css'
 
 export default function AdminDashboard() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const navigate = useNavigate();
   const [activeSemester, setActiveSemester] = useState(undefined);
+  const [kpis, setKpis] = useState(null);
 
-  useEffect(() => {
+  const loadData = () => {
     semesterApi.getActive()
       .then(r => setActiveSemester(r.data?.semesterId ? r.data : null))
       .catch(() => setActiveSemester(null));
+
+    adminApi.getDashboardStats()
+      .then(r => setKpis(r.data))
+      .catch(() => setKpis(null));
+
+    authApi.getMe()
+      .then(r => { if (r.data) updateUser(r.data); })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    loadData();
+    const interval = setInterval(loadData, 30 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const stats = [
-    { label: 'Total Scholars', value: '—', sub: 'Active this semester', accent: 'accent-navy' },
-    { label: 'Total Dept Heads', value: '—', sub: 'Across all branches', accent: 'accent-gold' },
-    { label: 'Active Users', value: '—', sub: 'Currently active', accent: 'accent-navy' },
-    { label: 'Pending Actions', value: '—', sub: 'Require attention', accent: 'accent-gold' },
+    { label: 'Total Scholars', value: kpis ? kpis.totalScholars : '—', sub: 'Registered scholars', accent: 'accent-navy' },
+    { label: 'Pending Approvals', value: kpis ? kpis.pendingApprovals : '—', sub: 'Duties awaiting review', accent: 'accent-gold' },
+    { label: 'Absences This Semester', value: kpis ? kpis.totalAbsencesThisSemester : '—', sub: 'Current semester', accent: 'accent-navy' },
+    { label: 'Active Duties Today', value: kpis ? kpis.activeDutiesToday : '—', sub: 'Currently clocked in', accent: 'accent-gold' },
   ];
 
   const quickActions = [
@@ -29,6 +44,8 @@ export default function AdminDashboard() {
     { label: 'Manage Branches', desc: 'Configure branches per department', page: 'branches', color: 'btn-outline' },
     { label: 'Register Dept Head', desc: 'Add department head', page: 'dept-heads', color: 'btn-outline' },
     { label: 'View All Users', desc: 'Browse and manage user accounts', page: 'users', color: 'btn-outline' },
+    { label: 'Manage Semesters', desc: 'Create and activate semesters', page: 'semesters', color: 'btn-outline' },
+    { label: 'Manage Duty Days', desc: 'Mark holidays and suspensions', page: 'duty-days', color: 'btn-outline' },
   ];
 
   const handleQuickAction = (page) => {
@@ -38,16 +55,15 @@ export default function AdminDashboard() {
   return (
     <Layout pageTitle="Admin Dashboard">
       <div className="admin-dashboard">
-        <div className="welcome-section">
-          <h1>Welcome back, {user?.firstName}</h1>
-          <p className="text-muted">
-            OAS Admin Dashboard — {new Date().toLocaleDateString('en-PH', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </p>
+        <div className="welcome-section" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div>
+            <h1 style={{ margin: 0 }}>Welcome back, {user?.firstName}</h1>
+            <p className="text-muted" style={{ margin: 0 }}>
+              OAS Admin Dashboard — {new Date().toLocaleDateString('en-PH', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+              })}
+            </p>
+          </div>
         </div>
 
         {activeSemester === null && (

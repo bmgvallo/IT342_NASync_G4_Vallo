@@ -1,10 +1,12 @@
 package com.citu.nasync_backend.features.department;
 
 import com.citu.nasync_backend.features.department.DepartmentResponse;
+import com.citu.nasync_backend.shared.entity.Branch;
 import com.citu.nasync_backend.shared.entity.Department;
 import com.citu.nasync_backend.shared.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,14 +50,24 @@ public class DepartmentService {
         return DepartmentResponse.from(updatedDepartment);
     }
 
-    public void deleteDepartment(Long id) {
+    @Transactional
+    public void deactivateDepartment(Long id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
-        
-        if (!department.getBranches().isEmpty()) {
-            throw new RuntimeException("Cannot delete department with existing branches");
+
+        boolean hasActiveBranches = department.getBranches().stream().anyMatch(Branch::isActive);
+        if (hasActiveBranches) {
+            throw new RuntimeException("Cannot deactivate department with active branches. Deactivate all branches first.");
         }
-        
-        departmentRepository.delete(department);
+
+        department.setActive(false);
+        departmentRepository.save(department);
+    }
+
+    public void reactivateDepartment(Long id) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
+        department.setActive(true);
+        departmentRepository.save(department);
     }
 }

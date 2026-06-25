@@ -58,10 +58,20 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteDepartment(@PathVariable Long id) {
+    public ResponseEntity<?> deactivateDepartment(@PathVariable Long id) {
         try {
-            departmentService.deleteDepartment(id);
-            return ResponseEntity.ok(Map.of("message", "Department deleted successfully"));
+            departmentService.deactivateDepartment(id);
+            return ResponseEntity.ok(Map.of("message", "Department deactivated successfully"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}/reactivate")
+    public ResponseEntity<?> reactivateDepartment(@PathVariable Long id) {
+        try {
+            departmentService.reactivateDepartment(id);
+            return ResponseEntity.ok(Map.of("message", "Department reactivated successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
